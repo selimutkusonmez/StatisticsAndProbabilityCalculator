@@ -16,6 +16,8 @@ class MainUI(QMainWindow):
 
     def init_ui(self):
 
+        self.setMaximumSize(600,600)
+        self.setMinimumSize(600,300)
         #Central Widget created
         self.central_widget = QTabWidget()
         self.setCentralWidget(self.central_widget)
