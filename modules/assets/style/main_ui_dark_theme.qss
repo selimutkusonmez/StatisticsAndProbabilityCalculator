@@ -115,3 +115,75 @@ QMenu::item:selected {
     background-color: #3B82F6;
     color: #FFFFFF;
 }
+
+
+/* OPERATİON WİDGET */
+
+QGroupBox {
+    border: 1px solid #444C56;
+    border-radius: 6px;
+    margin-top: 12px;
+    padding-top: 16px;
+    background-color: #2D333B;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0 4px;
+    color: #ADBAC7;
+    font-weight: bold;
+}
+
+QLabel {
+    font-size : 20px;
+    color: #ADBAC7;
+}
+
+QLineEdit, QTextEdit {
+    background-color: #22272E;
+    border: 1px solid #444C56;
+    border-radius: 4px;
+    padding: 6px;
+    color: #ADBAC7;
+}
+
+QLineEdit:focus, QTextEdit:focus {
+    border: 1px solid #3B82F6;
+}
+
+QTextEdit[readOnly="true"] {
+    background-color: #22272E;
+    color: #768390;
+}
+
+QPushButton {
+    background-color: #3B82F6;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #60A5FA;
+}
+
+QPushButton:pressed {
+    background-color: #2563EB;
+}
+
+#operation_name{
+    color : #ADBAC7;
+    font-size : 20px;
+    font-weight : bold;
+}
+
+#dynamic_formula{
+    font-size: 28px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #ADBAC7;
+    
+}

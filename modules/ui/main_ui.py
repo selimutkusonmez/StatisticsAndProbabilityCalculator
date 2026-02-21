@@ -2,7 +2,7 @@ import sys
 import subprocess
 from PyQt6.QtCore import Qt,QRegularExpression,QSize
 from PyQt6.QtWidgets import (
-     QApplication,QWidget,QMainWindow,QLineEdit,QPushButton,QTextEdit,QLabel,QGridLayout,QFrame,QTableWidget,QTableWidgetItem,QGroupBox,QComboBox,QMessageBox,QFileDialog,QListWidget,QTabWidget,QVBoxLayout,QStatusBar,QSizePolicy,QHBoxLayout)
+     QApplication,QWidget,QMainWindow,QLineEdit,QPushButton,QTextEdit,QLabel,QGridLayout,QFrame,QTableWidget,QTableWidgetItem,QGroupBox,QComboBox,QMessageBox,QFileDialog,QListWidget,QTabWidget,QVBoxLayout,QStatusBar,QSizePolicy,QHBoxLayout,QTabBar)
 from PyQt6.QtGui import QIcon,QPixmap,QIntValidator,QDoubleValidator,QRegularExpressionValidator,QKeyEvent,QPainter,QFontDatabase,QFont,QAction,QActionGroup
 
 from modules.ui.operations_ui import OperationsUI
@@ -14,12 +14,13 @@ class MainUI(QMainWindow):
         super().__init__()
         self.operations_ui = OperationsUI()
         self.operations_ui.setProperty("class","operations_ui")
+        self.operations_ui.operation_signal.connect(self.tab_widget_add_new_tab)
         self.init_ui()
-        self.light_theme_action_function()
+        self.dark_theme_action_function()
 
     def init_ui(self):
 
-        self.setFixedSize(800,550)
+        self.setFixedSize(900,550)
 
 
         #Central Widget created
@@ -27,7 +28,11 @@ class MainUI(QMainWindow):
         self.central_widget.setObjectName("central_widget")
         self.setCentralWidget(self.central_widget)
 
+        self.central_widget.setTabsClosable(True)
+        self.central_widget.tabCloseRequested.connect(self.central_widget_tab_close_function)
+
         self.central_widget.addTab(self.operations_ui,"Operations")
+        self.central_widget.tabBar().setTabButton(0, QTabBar.ButtonPosition.RightSide, None)
 
         #Layout created and connected
         self.layout = QGridLayout()
@@ -55,7 +60,6 @@ class MainUI(QMainWindow):
         light_theme_action = QAction("Light Theme")
         light_theme_action.setShortcut("Ctrl+L")
         light_theme_action.setCheckable(True)
-        light_theme_action.setChecked(True)
         theme_menu.addAction(light_theme_action)
         theme_action_group.addAction(light_theme_action)
         light_theme_action.triggered.connect(self.light_theme_action_function)
@@ -64,6 +68,7 @@ class MainUI(QMainWindow):
         dark_theme_action = QAction("Dark Theme")
         dark_theme_action.setShortcut("Ctrl+D")
         dark_theme_action.setCheckable(True)
+        dark_theme_action.setChecked(True)
         theme_menu.addAction(dark_theme_action)
         theme_action_group.addAction(dark_theme_action)
         dark_theme_action.triggered.connect(self.dark_theme_action_function)
@@ -83,3 +88,11 @@ class MainUI(QMainWindow):
     
     def chosen_subject(self,chosen_subject):
          self.statusBar().showMessage(chosen_subject)
+
+    def tab_widget_add_new_tab(self,widget,title):
+         index = self.central_widget.addTab(widget,title)
+
+         self.central_widget.setCurrentIndex(index)
+
+    def central_widget_tab_close_function(self,index):
+        self.central_widget.removeTab(index)

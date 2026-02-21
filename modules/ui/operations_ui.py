@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import importlib
 from PyQt6.QtCore import Qt,QRegularExpression,QSize,pyqtSignal
 from PyQt6.QtWidgets import (
      QApplication,QWidget,QMainWindow,QLineEdit,QPushButton,QTextEdit,QLabel,QGridLayout,QFrame,QTableWidget,QTableWidgetItem,QGroupBox,QComboBox,QMessageBox,QFileDialog,QListWidget,QTabWidget,QVBoxLayout,QStatusBar,QSizePolicy,QHBoxLayout)
@@ -9,6 +10,7 @@ from config import JPG_PATH
 
 class OperationsUI(QWidget):
      chosen_subject = pyqtSignal(str)
+     operation_signal = pyqtSignal(QWidget,str)
 
      def __init__(self):
           super().__init__()
@@ -26,14 +28,14 @@ class OperationsUI(QWidget):
                     ["Mean","Population Mean","Sample Mean"],
                     ["Variance","Population Variance","Sample Variance"],
                     ["Standard Deviation","Population Standard Deviation", "Sample Standard Deviation"],
-                    ["Percentile","25th Percentile","50th Percentile","75th Percentile"],
+                    ["Percentile","Percentile"],
                     ["Covariance","Population Covariance","Sample Covariance"],
                     ["Correlation","Correlation"],
                ],
 
                "Probability" : [
-                    ["Addition Rule","Mutually Exclusive","Non-Mutually Exclusive"],
-                    ["Multiplication Rule","Independent Event", "Dependent Events"],
+                    ["Addition Rule","Mutually Exclusive","Non Mutually Exclusive"],
+                    ["Multiplication Rule","Independent Events", "Dependent Events"],
                ],
 
                "Distribution Functions" : [
@@ -42,23 +44,23 @@ class OperationsUI(QWidget):
                     ["CDF","CDF"],
                     ["Bernoulli Distribution","Bernoulli Distribution"],
                     ["Binomial Distribution","Binomial Distribution"],
-                    ["Poisson Distribution","PMF","CDF"],
-                    ["Normal Distribution","PDF","CDF"],
+                    ["Poisson Distribution","Poisson Distribution PMF","Poisson Distribution CDF"],
+                    ["Normal Distribution","Normal Distribution PDF","Normal Distribution CDF"],
                     ["Standard Normal Distribution","Standard Normal Distribution"],
                     ["Z Score","Z Score"],
-                    ["Uniform Distribution","PMF","CDF"],
-                    ["Log-Normal Distribution","PDF","CDF"],
-                    ["Pareto Distribution","PDF","CDF"],
+                    ["Uniform Distribution","Uniform Distribution PDF","Uniform Distribution CDF"],
+                    ["Log Normal Distribution","Log Normal Distribution PDF","Log Normal Distribution CDF"],
+                    ["Pareto Distribution","Pareto Distribution PDF","Pareto Distribution CDF"],
                ],
 
                "Hypothesis Tests" : [
                     ["Central Limit Theorem","Central Limit Theorem"],
                     ["Confidence Interval","Confidence Interval"],
                     ["Margin Of Error","Margin Of Error"],
-                    ["Z Test","One-Tailed Z Test","Two-Tailed Z Test"],
-                    ["t Test","One-Tailed t Test","Two-Tailed t Test","Single-Sample t Test","Independent Sample t Test","Paired Sample t test"],
-                    ["Chi-Square Test","Chi-Square Test"],
-                    ["ANOVA - Analysis Of Variance","ANOVA - Analysis Of Variance"],
+                    ["Z Test","One Tailed Z Test","Two Tailed Z Test"],
+                    ["t Test","One Tailed t Test","Two Tailed t Test","Single Sample t Test","Independent Sample t Test","Paired Sample t test"],
+                    ["Chi Square Test","Chi Square Test"],
+                    ["ANOVA","ANOVA"],
                     ["Bayes","Bayes"],
                ],
                }
@@ -93,7 +95,7 @@ class OperationsUI(QWidget):
           self.subjects_list_2.itemDoubleClicked.connect(self.subjects_list_2_item_double_clicked)
           self.layout.addWidget(self.subjects_list_2)
 
-          self.current_subject = item.text()
+          self.main_subject = item.text()
           
           for i in self.subjects_dict[item.text()]:
                self.subjects_list_2.addItem(i[0])
@@ -113,12 +115,28 @@ class OperationsUI(QWidget):
           self.subjects_list_3.itemDoubleClicked.connect(self.subjects_list_3_item_double_clicked)
           self.layout.addWidget(self.subjects_list_3)
 
-          for i in self.subjects_dict[self.current_subject][self.subjects_list_2.row(item)][1:]:
+          self.sub_subject = item.text()
+
+          for i in self.subjects_dict[self.main_subject][self.subjects_list_2.row(item)][1:]:
                self.subjects_list_3.addItem(i)
           self.chosen_subject.emit(item.text())
 
      def subjects_list_3_item_double_clicked(self,item):
-          return
+          operation_name = item.text()
+          main_folder = self.main_subject.lower().replace(" ","_")
+          sub_folder = self.sub_subject.lower().replace(" ","_")
+          file_name = operation_name.lower().replace(" ","_")
+          
+          module_path = f"modules.ui.{main_folder}.{sub_folder}.{file_name}"
+
+          try:
+               module = importlib.import_module(module_path)
+               widget = module.OperationWidget(operation_name)
+
+               self.operation_signal.emit(widget,operation_name)
+          except Exception as e:
+               self.chosen_subject.emit(str(e))
+
 
      
 
