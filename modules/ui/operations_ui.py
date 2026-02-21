@@ -1,6 +1,6 @@
 import sys
 import subprocess
-from PyQt6.QtCore import Qt,QRegularExpression,QSize
+from PyQt6.QtCore import Qt,QRegularExpression,QSize,pyqtSignal
 from PyQt6.QtWidgets import (
      QApplication,QWidget,QMainWindow,QLineEdit,QPushButton,QTextEdit,QLabel,QGridLayout,QFrame,QTableWidget,QTableWidgetItem,QGroupBox,QComboBox,QMessageBox,QFileDialog,QListWidget,QTabWidget,QVBoxLayout,QStatusBar,QSizePolicy,QHBoxLayout)
 from PyQt6.QtGui import QIcon,QPixmap,QIntValidator,QDoubleValidator,QRegularExpressionValidator,QKeyEvent,QPainter,QFontDatabase,QFont,QAction,QActionGroup
@@ -8,6 +8,8 @@ from PyQt6.QtGui import QIcon,QPixmap,QIntValidator,QDoubleValidator,QRegularExp
 from config import JPG_PATH
 
 class OperationsUI(QWidget):
+     chosen_subject = pyqtSignal(str)
+
      def __init__(self):
           super().__init__()
           self.init_ui()
@@ -18,8 +20,7 @@ class OperationsUI(QWidget):
           self.layout = QHBoxLayout()
           self.setLayout(self.layout)
 
-
-          self.operations = {
+          self.subjects_dict = {
 
                "Statistics" : [
                     ["Mean","Population Mean","Sample Mean"],
@@ -51,60 +52,73 @@ class OperationsUI(QWidget):
                ],
 
                "Hypothesis Tests" : [
-                    ["Central Limit Theorem"],
-                    ["Confidence Interval"],
-                    ["Margin Of Error"],
+                    ["Central Limit Theorem","Central Limit Theorem"],
+                    ["Confidence Interval","Confidence Interval"],
+                    ["Margin Of Error","Margin Of Error"],
                     ["Z Test","One-Tailed Z Test","Two-Tailed Z Test"],
                     ["t Test","One-Tailed t Test","Two-Tailed t Test","Single-Sample t Test","Independent Sample t Test","Paired Sample t test"],
-                    ["Chi-Square Test"],
-                    ["ANOVA - Analysis Of Variance"],
-                    ["Bayes"],
+                    ["Chi-Square Test","Chi-Square Test"],
+                    ["ANOVA - Analysis Of Variance","ANOVA - Analysis Of Variance"],
+                    ["Bayes","Bayes"],
                ],
                }
           
-          self.operations_list = QListWidget()
-          self.operations_list.itemDoubleClicked.connect(self.operation_list_item_double_clicked)
-          self.layout.addWidget(self.operations_list)
-          for key in self.operations.keys():
-               self.operations_list.addItem(key)
+          self.subjects_list_1 = QListWidget()
+          self.subjects_list_1.itemDoubleClicked.connect(self.subjects_list_1_item_double_clicked)
+          self.layout.addWidget(self.subjects_list_1)
 
-     def operation_list_item_double_clicked(self,item):
-          if hasattr(self, "operations_sub_sub_list"):
+          for key in self.subjects_dict.keys():
+               self.subjects_list_1.addItem(key)
+
+     def subjects_list_1_item_double_clicked(self,item):
+          if hasattr(self, "subjects_list_3"):
                try:
-                    self.layout.removeWidget(self.operations_sub_sub_list)
-                    self.operations_sub_sub_list.deleteLater()
-                    del self.operations_sub_sub_list
+                    self.layout.removeWidget(self.subjects_list_3)
+                    self.subjects_list_3.deleteLater()
+                    del self.subjects_list_3
                except :
                     pass
           
-          if hasattr(self, "operations_sub_list"):
+          if hasattr(self, "subjects_list_2"):
                try:
-                    self.layout.removeWidget(self.operations_sub_list)
-                    self.operations_sub_list.deleteLater()
-                    del self.operations_sub_list
+                    self.layout.removeWidget(self.subjects_list_2)
+                    self.subjects_list_2.deleteLater()
+                    del self.subjects_list_2
                except : 
                     pass
          
-          self.operations_sub_list = QListWidget()
-          self.operations_sub_list.itemDoubleClicked.connect(self.operations_sub_list_item_double_clicked)
-          self.current_subject = item.text()
-          self.layout.addWidget(self.operations_sub_list)
-          for i in self.operations[item.text()]:
-               self.operations_sub_list.addItem(i[0])
+          self.subjects_list_2 = QListWidget()
+          self.subjects_list_2.itemDoubleClicked.connect(self.subjects_list_2_item_double_clicked)
+          self.layout.addWidget(self.subjects_list_2)
 
-     def operations_sub_list_item_double_clicked(self,item):
-          if hasattr(self, "operations_sub_sub_list"):
+          self.current_subject = item.text()
+          
+          for i in self.subjects_dict[item.text()]:
+               self.subjects_list_2.addItem(i[0])
+          self.chosen_subject.emit(item.text())
+
+     def subjects_list_2_item_double_clicked(self,item):
+          if hasattr(self, "subjects_list_3"):
                try:
-                    self.layout.removeWidget(self.operations_sub_sub_list)
-                    self.operations_sub_sub_list.deleteLater()
-                    del self.operations_sub_sub_list
+                    self.layout.removeWidget(self.subjects_list_3)
+                    self.subjects_list_3.deleteLater()
+                    del self.subjects_list_3
                except :
                      pass
           
-          self.operations_sub_sub_list = QListWidget()
-          self.layout.addWidget(self.operations_sub_sub_list)
-          for i in self.operations[self.current_subject][self.operations_sub_list.row(item)][1:]:
-               self.operations_sub_sub_list.addItem(i)
+          self.subjects_list_3 = QListWidget()
+          self.subjects_list_3.itemDoubleClicked.connect(self.subjects_list_3_item_double_clicked)
+          self.layout.addWidget(self.subjects_list_3)
+
+          for i in self.subjects_dict[self.current_subject][self.subjects_list_2.row(item)][1:]:
+               self.subjects_list_3.addItem(i)
+          self.chosen_subject.emit(item.text())
+
+     def subjects_list_3_item_double_clicked(self,item):
+          return
+
+     
+
           
                     
                

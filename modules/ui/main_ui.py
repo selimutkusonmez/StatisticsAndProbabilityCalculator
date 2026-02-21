@@ -16,8 +16,9 @@ class MainUI(QMainWindow):
 
     def init_ui(self):
 
-        self.setMaximumSize(600,600)
+        self.setMaximumSize(600,400)
         self.setMinimumSize(600,300)
+
         #Central Widget created
         self.central_widget = QTabWidget()
         self.setCentralWidget(self.central_widget)
@@ -63,7 +64,7 @@ class MainUI(QMainWindow):
         theme_action_group.addAction(dark_theme_action)
         dark_theme_action.triggered.connect(self.dark_theme_action_function)
 
-
+        self.operations_ui.chosen_subject.connect(self.chosen_subject)
 
 
     def restart_app_action_function(self):
@@ -75,3 +76,6 @@ class MainUI(QMainWindow):
 
     def dark_theme_action_function(self):
          return
+    
+    def chosen_subject(self,chosen_subject):
+         self.statusBar().showMessage(chosen_subject)
