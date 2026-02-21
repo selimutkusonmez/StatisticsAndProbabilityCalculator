@@ -28,22 +28,15 @@ class OperationWidget(QWidget):
         self.left_group_box.setLayout(self.left_group_box_layout)
         self.layout.addWidget(self.left_group_box,0,0)
 
-        self.left_group_box.setFixedWidth(150)
+        self.left_group_box.setFixedWidth(180)
 
-        self.variable_1 = QLabel("Data")
-        self.left_group_box_layout.addWidget(self.variable_1,0,0)
+        self.variable_1_label = QLabel("Data")
+        self.variable_1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
-        self.variable_1_input = QLineEdit()
-        self.variable_1_input.setValidator(validator)
-        self.left_group_box_layout.addWidget(self.variable_1_input,0,1)
-
-        self.variable_2 = QLabel("N")
-        self.left_group_box_layout.addWidget(self.variable_2,1,0)
-
-        self.variable_2_input = QLineEdit()
-        self.variable_2_input.setValidator(validator)
-        self.left_group_box_layout.addWidget(self.variable_2_input,1,1)
-
+        self.variable_1_input = QTextEdit()
+        self.variable_1_input.setPlaceholderText("Seperated with comma")
+        self.left_group_box_layout.addWidget(self.variable_1_input,1,0)
 
         self.calculate_button = QPushButton("Calculate")
         self.calculate_button.clicked.connect(self.calculate_button_function)
@@ -77,26 +70,36 @@ class OperationWidget(QWidget):
 
         self.right_group_box.setFixedWidth(225)
 
-        self.variable_1_info_label = QLabel("<i><b>&mu;</b></i>")
+        self.variable_1_info_label = QLabel("&sigma;<sup>2</sup>")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
 
-        self.variable_1_info = QTextEdit("<b>&mu; (Population Mean):</b> The average value of all observations in the entire population.<br><br>")
+        self.variable_1_info = QTextEdit("<b>&sigma;<sup>2</sup> (Population Variance):</b><br>"
+                                        "It measures the average squared distance of each data point from the population mean."
+                                        "It quantifies the spread or dispersion within the entire dataset.")
         self.variable_1_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_1_info,0,1)
 
 
-        self.variable_2_info_label = QLabel("N")
+        self.variable_2_info_label = QLabel("<i><b>&mu;</b></i>")
         self.right_group_box_layout.addWidget(self.variable_2_info_label,1,0)
 
-        self.variable_2_info = QTextEdit("<b>N (Population Size):</b> The total number of members or data points in the population.")
+        self.variable_2_info = QTextEdit("<b>&mu; (Population Mean):</b> The average value of all observations in the entire population.<br><br>")
         self.variable_2_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_2_info,1,1)
+
+
+        self.variable_3_info_label = QLabel("N")
+        self.right_group_box_layout.addWidget(self.variable_3_info_label,2,0)
+
+        self.variable_3_info = QTextEdit("<b>N (Population Size):</b> The total number of members or data points in the population.")
+        self.variable_3_info.setReadOnly(True)
+        self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
+
 
 
         self.update_formula_display()
 
         self.variable_1_input.textChanged.connect(self.reset_and_update_display)
-        self.variable_2_input.textChanged.connect(self.reset_and_update_display)
 
 
     def reset_and_update_display(self):
@@ -105,11 +108,25 @@ class OperationWidget(QWidget):
 
 
     def update_formula_display(self):
-        
-            variable_1 = self.variable_1_input.text() if self.variable_1_input.text() else "&mu;"
-            variable_2 = self.variable_2_input.text() or "N"
             
-            html_formul = f"""
+        raw_text = self.variable_1_input.toPlainText().strip()
+        if not raw_text:
+                self.variable_1 = "&mu;"
+                self.variable_2 = "N"
+            
+        else : 
+            try:
+                self.data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
+                self.variable_2 = len(self.data)
+                self.variable_1 = sum(self.data)
+                
+            except ValueError:
+                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+                self.variable_1 = "&mu;"
+                self.variable_2 = "N"
+    
+            
+        html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0">
                 <tr>
                     <td valign="middle" style="padding-right: 10px;">
@@ -120,12 +137,12 @@ class OperationWidget(QWidget):
                         <table cellpadding="0" cellspacing="0">
                             <tr>
                                 <td align="center" style="border-bottom: 2px solid currentColor; padding: 0px 8px;">
-                                    &Sigma;(x<sub>i</sub> - {variable_1})<sup>2</sup>
+                                    &Sigma;(x<sub>i</sub> - {self.variable_1})<sup>2</sup>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="center" style="padding: 4px 8px 0px 8px;">
-                                    {variable_2}
+                                    {self.variable_2}
                                 </td>
                             </tr>
                         </table>
@@ -137,26 +154,16 @@ class OperationWidget(QWidget):
                 </tr>
             </table>
             """
-            self.dynamic_formula.setText(html_formul)
+        self.dynamic_formula.setText(html_formul)
 
     def calculate_button_function(self):
         try:
-            variable_1 = float(self.variable_1_input.text())
-            variable_2 = float(self.variable_2_input.text())
-            variable_3 = float(self.variable_3_input.text())
-            variable_4 = float(self.variable_4_input.text())
-
-            if variable_3 < variable_2:
-                 self.current_result = "<span style='color: #EF4444; font-size: 20px;'>x >= Xm</span>"
-                
-            else:
-
-                result = (variable_1 * (variable_2 ** variable_1)) / (variable_3 ** (variable_1 + 1))
+                result = sum((x - (sum(self.data) / self.variable_2)) ** 2 for x in self.data)/self.variable_2
 
                 self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
-        except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Number!</span>"
+        except TypeError:
+            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
         self.update_formula_display()
 
 

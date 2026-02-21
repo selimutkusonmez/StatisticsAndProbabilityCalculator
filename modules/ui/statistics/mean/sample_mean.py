@@ -67,20 +67,27 @@ class OperationWidget(QWidget):
 
         self.right_group_box.setFixedWidth(225)
 
-        self.variable_1_info_label = QLabel("&Sigma;x<sub>i</sub>")
+        self.variable_1_info_label = QLabel("<i>x&#772;</i>")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
 
-        self.variable_1_info = QTextEdit("<b>&Sigma;x<sub>i</sub> (Sum of Values):</b> The total sum of all individual values in the sample dataset.<br><br>")
+        self.variable_1_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
         self.variable_1_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_1_info,0,1)
 
-
-        self.variable_2_info_label = QLabel("n")
+        self.variable_2_info_label = QLabel("&Sigma;x<sub>i</sub>")
         self.right_group_box_layout.addWidget(self.variable_2_info_label,1,0)
 
-        self.variable_2_info = QTextEdit("<b>N (Sample Size):</b> The total number of observations or data points in the sample dataset.")
+        self.variable_2_info = QTextEdit("<b>&Sigma;x<sub>i</sub> (Sum of Values):</b> The total sum of all individual values in the sample dataset.<br><br>")
         self.variable_2_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_2_info,1,1)
+
+
+        self.variable_3_info_label = QLabel("n")
+        self.right_group_box_layout.addWidget(self.variable_3_info_label,2,0)
+
+        self.variable_3_info = QTextEdit("<b>N (Sample Size):</b> The total number of observations or data points in the sample dataset.")
+        self.variable_3_info.setReadOnly(True)
+        self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
 
 
         self.update_formula_display()
