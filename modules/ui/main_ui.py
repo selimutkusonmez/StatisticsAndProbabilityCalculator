@@ -6,21 +6,25 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QIcon,QPixmap,QIntValidator,QDoubleValidator,QRegularExpressionValidator,QKeyEvent,QPainter,QFontDatabase,QFont,QAction,QActionGroup
 
 from modules.ui.operations_ui import OperationsUI
+from modules.logic.style_reader.style_reader import read_style
 
 
 class MainUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.operations_ui = OperationsUI()
+        self.operations_ui.setProperty("class","operations_ui")
         self.init_ui()
+        self.light_theme_action_function()
 
     def init_ui(self):
 
-        self.setMaximumSize(600,400)
-        self.setMinimumSize(600,300)
+        self.setFixedSize(800,550)
+
 
         #Central Widget created
         self.central_widget = QTabWidget()
+        self.central_widget.setObjectName("central_widget")
         self.setCentralWidget(self.central_widget)
 
         self.central_widget.addTab(self.operations_ui,"Operations")
@@ -72,10 +76,10 @@ class MainUI(QMainWindow):
             subprocess.Popen([sys.executable, *sys.argv])
 
     def light_theme_action_function(self):
-         return
+        self.setStyleSheet(read_style("main_ui_light_theme.qss"))
 
     def dark_theme_action_function(self):
-         return
+        self.setStyleSheet(read_style("main_ui_dark_theme.qss"))
     
     def chosen_subject(self,chosen_subject):
          self.statusBar().showMessage(chosen_subject)

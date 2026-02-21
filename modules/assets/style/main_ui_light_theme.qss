@@ -1,0 +1,116 @@
+/* App Background */
+QMainWindow, #central_widget, #central_widget::pane {
+    background-color: #F8F9FA;
+    color: #1F2937; 
+}
+
+/* QTabWidget */
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QTabBar::tab {
+    background-color: #F3F4F6;
+    color: #6B7280;
+    padding: 8px 20px;
+    border: 1px solid #E5E7EB;
+    border-bottom: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-right: 2px;
+}
+
+QTabBar::tab:hover {
+    background-color: #E5E7EB;
+    color: #111827;
+}
+
+QTabBar::tab:selected {
+    background-color: #3B82F6;
+    color: #FFFFFF;
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px;
+}
+
+
+/* QListWidgets in OperationsUI */
+QListWidget[class="list"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    padding: 4px;
+    outline: none;
+}
+
+
+/* QListWidget Item */
+QListWidget[class="list"]::item {
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    color: #374151;
+}
+
+QListWidget[class="list"]::item:hover {
+    background-color: #F3F4F6;
+    color: #111827;
+}
+
+QListWidget[class="list"]::item:selected {
+    background-color: #3B82F6;
+    color: #FFFFFF;
+}
+
+
+/* Status Bar */
+QStatusBar {
+    background-color: #FFFFFF;
+    color: #6B7280;
+    border-top: 1px solid #E5E7EB;
+    padding-left: 8px;
+}
+
+QStatusBar::item {
+    border: none;
+}
+
+
+/* QMenuBar */
+QMenuBar {
+    background-color: #FFFFFF;
+    color: #374151;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 2px;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected { 
+    background-color: #F3F4F6;
+}
+
+
+/* QMenu*/
+QMenu {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 6px 24px 6px 12px;
+    border-radius: 4px;
+    color: #374151;
+}
+
+QMenu::item:selected {
+    background-color: #3B82F6;
+    color: #FFFFFF;
+}

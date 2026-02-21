@@ -64,6 +64,7 @@ class OperationsUI(QWidget):
                }
           
           self.subjects_list_1 = QListWidget()
+          self.subjects_list_1.setProperty("class","list")
           self.subjects_list_1.itemDoubleClicked.connect(self.subjects_list_1_item_double_clicked)
           self.layout.addWidget(self.subjects_list_1)
 
@@ -88,6 +89,7 @@ class OperationsUI(QWidget):
                     pass
          
           self.subjects_list_2 = QListWidget()
+          self.subjects_list_2.setProperty("class","list")
           self.subjects_list_2.itemDoubleClicked.connect(self.subjects_list_2_item_double_clicked)
           self.layout.addWidget(self.subjects_list_2)
 
@@ -107,6 +109,7 @@ class OperationsUI(QWidget):
                      pass
           
           self.subjects_list_3 = QListWidget()
+          self.subjects_list_3.setProperty("class","list")
           self.subjects_list_3.itemDoubleClicked.connect(self.subjects_list_3_item_double_clicked)
           self.layout.addWidget(self.subjects_list_3)
 
