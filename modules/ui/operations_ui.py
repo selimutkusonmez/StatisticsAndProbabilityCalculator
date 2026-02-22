@@ -44,7 +44,6 @@ class OperationsUI(QWidget):
                     ["Poisson Distribution","Poisson Distribution PMF","Poisson Distribution CDF"],
                     ["Normal Distribution","Normal Distribution PDF","Normal Distribution CDF"],
                     ["Standard Normal Distribution","Standard Normal Distribution"],
-                    ["Z Score","Z Score"],
                     ["Uniform Distribution","Uniform Distribution PDF","Uniform Distribution CDF"],
                     ["Log Normal Distribution","Log Normal Distribution PDF","Log Normal Distribution CDF"],
                     ["Pareto Distribution","Pareto Distribution PDF","Pareto Distribution CDF"],
