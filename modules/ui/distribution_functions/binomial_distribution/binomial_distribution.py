@@ -82,36 +82,45 @@ class OperationWidget(QWidget):
 
         self.right_group_box.setFixedWidth(300)
 
-        self.variable_1_info_label = QLabel("n")
+        self.variable_1_info_label = QLabel()
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
 
-        self.variable_1_info = QTextEdit("<b>n (Number of Trials):</b><br>"
-                                        "The total number of identical and independent experiments or observations you are conducting.<br> "
-                                        "<i>(e.g., flipping a coin 10 times &rarr; n = 10)</i>")
+        self.variable_1_info = QTextEdit("<b>Binomial Distribution:</b><br>"
+                                        "A discrete probability distribution that measures the likelihood of getting exactly <b>x successes</b> in a fixed number of <b>n independent trials</b>.<br>"
+                                        "<i>(e.g., calculating the probability of getting exactly 3 heads when flipping a fair coin 10 times.)</i>")
         self.variable_1_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_1_info,0,1)
 
+        self.variable_2_info_label = QLabel("n")
+        self.right_group_box_layout.addWidget(self.variable_1_info_label,1,0)
 
-        self.variable_2_info_label = QLabel("p")
-        self.right_group_box_layout.addWidget(self.variable_2_info_label,1,0)
-
-        self.variable_2_info = QTextEdit("<b>p (Probability of Success):</b><br>"
-                                        "The likelihood that a specific outcome (a 'success') occurs in a <b>single</b> trial. "
-                                        "This value must always be between 0 and 1.<br>"
-                                        "<i>(e.g., getting heads on a fair coin &rarr; p = 0.5)</i>")
+        self.variable_2_info = QTextEdit("<b>n (Number of Trials):</b><br>"
+                                        "The total number of identical and independent experiments or observations you are conducting.<br> "
+                                        "<i>(e.g., flipping a coin 10 times &rarr; n = 10)</i>")
         self.variable_2_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_2_info,1,1)
 
 
-        self.variable_3_info_label = QLabel("x")
+        self.variable_3_info_label = QLabel("p")
         self.right_group_box_layout.addWidget(self.variable_3_info_label,2,0)
 
-        self.variable_3_info = QTextEdit("<b>x or k (Target Successes):</b><br>"
+        self.variable_3_info = QTextEdit("<b>p (Probability of Success):</b><br>"
+                                        "The likelihood that a specific outcome (a 'success') occurs in a <b>single</b> trial. "
+                                        "This value must always be between 0 and 1.<br>"
+                                        "<i>(e.g., getting heads on a fair coin &rarr; p = 0.5)</i>")
+        self.variable_3_info.setReadOnly(True)
+        self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
+
+
+        self.variable_4_info_label = QLabel("x")
+        self.right_group_box_layout.addWidget(self.variable_4_info_label,3,0)
+
+        self.variable_4_info = QTextEdit("<b>x or k (Target Successes):</b><br>"
                                     "The exact number of successful outcomes you want to find the probability for. "
                                     "This must be a whole number between 0 and <i>n</i>.<br>"
                                     "<i>(e.g., wanting exactly 3 heads out of 10 flips &rarr; x = 3)</i>")
-        self.variable_3_info.setReadOnly(True)
-        self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
+        self.variable_4_info.setReadOnly(True)
+        self.right_group_box_layout.addWidget(self.variable_4_info,3,1)
 
         self.update_formula_display()
 
@@ -131,6 +140,8 @@ class OperationWidget(QWidget):
             val = float(parts[0]) / float(parts[1]) if len(parts) == 2 else float(text)
             if 0.0 <= val <= 1.0:
                 return val
+            else:
+                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>P must be between 1 and 0!</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None

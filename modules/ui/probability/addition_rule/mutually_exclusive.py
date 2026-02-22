@@ -117,6 +117,8 @@ class OperationWidget(QWidget):
             val = float(parts[0]) / float(parts[1]) if len(parts) == 2 else float(text)
             if 0.0 <= val <= 1.0:
                 return val
+            else:
+                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>P must be between 1 and 0!</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None
