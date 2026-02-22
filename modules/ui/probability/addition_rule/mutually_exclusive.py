@@ -109,47 +109,27 @@ class OperationWidget(QWidget):
         self.update_formula_display()
 
 
+    def parse_probability(self, text):
+        if not text:
+            return None
+        try:
+            parts = text.split("/")
+            val = float(parts[0]) / float(parts[1]) if len(parts) == 2 else float(text)
+            if 0.0 <= val <= 1.0:
+                return val
+        except (ValueError, ZeroDivisionError):
+            pass
+        return None
+    
     def update_formula_display(self):
         self.variable_1_display = "P(A)"
         self.variable_2_display = "P(B)"
 
-        self.variable_1 = self.variable_1_input.text().strip()
-        if self.variable_1:
-            try:
-                parts = self.variable_1.split("/")
-                if len(parts) == 2:
-                    if float(parts[0]) / float(parts[1]) > 1 or float(parts[0]) / float(parts[1]) < 0:
-                        pass
-                    else:
-                        self.variable_1 = float(parts[0]) / float(parts[1])
-                        self.variable_1_display = f"{self.variable_1:.2f}"
-                else:
-                    if float(self.variable_1) > 1 or float(self.variable_1) < 0:
-                        pass
-                    else:
-                        self.variable_1 = float(self.variable_1)
-                        self.variable_1_display = f"{self.variable_1:.2f}"
-            except (ValueError,ZeroDivisionError):
-                pass
+        self.variable_1 = self.parse_probability(self.variable_1_input.text().strip())
+        self.variable_2 = self.parse_probability(self.variable_2_input.text().strip())
 
-        self.variable_2 = self.variable_2_input.text().strip()
-        if self.variable_2:
-            try:
-                parts = self.variable_2.split("/")
-                if len(parts) == 2:
-                    if float(parts[0]) / float(parts[1]) > 1 or float(parts[0]) / float(parts[1]) < 0:
-                        pass
-                    else:
-                        self.variable_2 = float(parts[0]) / float(parts[1])
-                        self.variable_2_display = f"{self.variable_2:.2f}"
-                else:
-                    if float(self.variable_2) > 1 or float(self.variable_2) < 0:
-                        pass
-                    else:
-                        self.variable_2 = float(self.variable_2)
-                        self.variable_2_display = f"{self.variable_2:.2f}"
-            except (ValueError,ZeroDivisionError):
-                pass
+        if self.variable_1 is not None: self.variable_1_display = f"{self.variable_1:.2f}"
+        if self.variable_2 is not None: self.variable_2_display = f"{self.variable_2:.2f}"
 
         html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0">
