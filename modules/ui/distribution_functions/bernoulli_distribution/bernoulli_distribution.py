@@ -31,7 +31,7 @@ class OperationWidget(QWidget):
 
         self.variable_1_input = QLineEdit()
         self.variable_1_input.setValidator(QRegularExpressionValidator(QRegularExpression("[0-9./ ]+")))
-        self.variable_1_input.setPlaceholderText("Number Of Trials")
+        self.variable_1_input.setPlaceholderText("Probability Of Success")
         self.left_group_box_layout.addWidget(self.variable_1_input,0,1)
 
         self.variable_2_label = QLabel("x")
@@ -39,7 +39,7 @@ class OperationWidget(QWidget):
 
         self.variable_2_input = QLineEdit()
         self.variable_2_input.setValidator(self.regex)
-        self.variable_2_input.setPlaceholderText("Probability Of Success")
+        self.variable_2_input.setPlaceholderText("Target Successes")
         self.left_group_box_layout.addWidget(self.variable_2_input,1,1)
 
         self.calculate_button = QPushButton("Calculate")
