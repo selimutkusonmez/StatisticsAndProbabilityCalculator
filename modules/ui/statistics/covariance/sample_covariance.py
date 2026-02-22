@@ -2,10 +2,6 @@ from PyQt6.QtCore import Qt,QRegularExpression,QSize
 from PyQt6.QtWidgets import QWidget,QLineEdit,QPushButton,QLabel,QGridLayout,QGroupBox,QComboBox,QListWidget,QTextEdit,QVBoxLayout
 from PyQt6.QtGui import QIcon,QIntValidator,QDoubleValidator,QRegularExpressionValidator
 
-from config import STYLE_PATH
-
-from modules.logic.style_reader.style_reader import read_style
-
 class OperationWidget(QWidget):
     def __init__(self,operation_name):
         super().__init__()
@@ -25,31 +21,23 @@ class OperationWidget(QWidget):
         self.left_group_box.setLayout(self.left_group_box_layout)
         self.layout.addWidget(self.left_group_box,0,0)
 
-        self.left_group_box.setFixedWidth(125)
+        self.left_group_box.setFixedWidth(180)
 
-        self.variable_1 = QLabel("1")
-        self.left_group_box_layout.addWidget(self.variable_1,0,0)
+        self.variable_1_label = QLabel("Data 1")
+        self.variable_1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
-        self.variable_1_input = QLineEdit()
-        self.left_group_box_layout.addWidget(self.variable_1_input,0,1)
+        self.variable_1_input = QTextEdit()
+        self.variable_1_input.setPlaceholderText("Seperated with comma")
+        self.left_group_box_layout.addWidget(self.variable_1_input,1,0)
 
-        self.variable_2 = QLabel("2")
-        self.left_group_box_layout.addWidget(self.variable_2,1,0)
+        self.variable_2_label = QLabel("Data 2")
+        self.variable_2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.left_group_box_layout.addWidget(self.variable_2_label,2,0)
 
-        self.variable_2_input = QLineEdit()
-        self.left_group_box_layout.addWidget(self.variable_2_input,1,1)
-
-        self.variable_3 = QLabel("3")
-        self.left_group_box_layout.addWidget(self.variable_3,2,0)
-
-        self.variable_3_input = QLineEdit()
-        self.left_group_box_layout.addWidget(self.variable_3_input,2,1)
-
-        self.variable_4 = QLabel("4")
-        self.left_group_box_layout.addWidget(self.variable_4,3,0)
-
-        self.variable_4_input = QLineEdit()
-        self.left_group_box_layout.addWidget(self.variable_4_input,3,1)
+        self.variable_2_input = QTextEdit()
+        self.variable_2_input.setPlaceholderText("Seperated with comma")
+        self.left_group_box_layout.addWidget(self.variable_2_input,3,0)
 
         self.calculate_button = QPushButton("Calculate")
         self.calculate_button.clicked.connect(self.calculate_button_function)
@@ -81,44 +69,42 @@ class OperationWidget(QWidget):
         self.right_group_box.setLayout(self.right_group_box_layout)
         self.layout.addWidget(self.right_group_box,0,2)
 
-        self.right_group_box.setFixedWidth(225)
+        self.right_group_box.setFixedWidth(250)
 
-        self.variable_1_info_label = QLabel("1")
+        self.variable_1_info_label = QLabel("S<sub>XY</sub>")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
 
-        self.variable_1_info = QTextEdit()
+        self.variable_1_info = QTextEdit("<b>S(X,Y) (Covariance):</b><br>"
+                                        "A statistical measure that shows the directional relationship between two random variables. "
+                                        "It indicates how much two variables change together.<br><br>")
         self.variable_1_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_1_info,0,1)
 
-
-        self.variable_2_info_label = QLabel("2")
+        self.variable_2_info_label = QLabel("<i>x&#772;</i>")
         self.right_group_box_layout.addWidget(self.variable_2_info_label,1,0)
 
-        self.variable_2_info = QTextEdit()
+        self.variable_2_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
         self.variable_2_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_2_info,1,1)
 
+        self.variable_2_info_label = QLabel("<i>y&#772;</i>")
+        self.right_group_box_layout.addWidget(self.variable_2_info_label,2,0)
 
-        self.variable_3_info_label = QLabel("3")
-        self.right_group_box_layout.addWidget(self.variable_3_info_label,2,0)
+        self.variable_2_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
+        self.variable_2_info.setReadOnly(True)
+        self.right_group_box_layout.addWidget(self.variable_2_info,2,1)
 
-        self.variable_3_info = QTextEdit()
+        self.variable_3_info_label = QLabel("n")
+        self.right_group_box_layout.addWidget(self.variable_3_info_label,3,0)
+
+        self.variable_3_info = QTextEdit("<b>N (Sample Size):</b> The total number of observations or data points in the sample dataset.")
         self.variable_3_info.setReadOnly(True)
-        self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
-
-
-        self.variable_4_info_label = QLabel("4")
-        self.right_group_box_layout.addWidget(self.variable_4_info_label,3,0)
-
-        self.variable_4_info = QTextEdit()
-        self.variable_4_info.setReadOnly(True)
-        self.right_group_box_layout.addWidget(self.variable_4_info,3,1)
+        self.right_group_box_layout.addWidget(self.variable_3_info,3,1)
 
         self.update_formula_display()
 
         self.variable_1_input.textChanged.connect(self.reset_and_update_display)
         self.variable_2_input.textChanged.connect(self.reset_and_update_display)
-        self.variable_3_input.textChanged.connect(self.reset_and_update_display)
 
 
     def reset_and_update_display(self):
@@ -127,27 +113,68 @@ class OperationWidget(QWidget):
 
 
     def update_formula_display(self):
-            variable_1 = self.variable_1_input.text() or "α"
-            variable_2 = self.variable_2_input.text() or "x<sub>m</sub>"
-            variable_3 = self.variable_3_input.text() or "x"
+        raw_text_1 = self.variable_1_input.toPlainText().strip()
+        raw_text_2 = self.variable_2_input.toPlainText().strip()
 
-            html_formul = f"""
+        self.variable_1_display = "<i>x&#772;</i>"
+        self.variable_2_display = "n - 1"
+        self.variable_3_display = "<i>y&#772;</i>"
+        self.variable_4_display = "n"
+
+        if not raw_text_1 or not raw_text_2:
+             pass
+            
+        else : 
+            try:
+                self.data_1 = [float(x.strip()) for x in raw_text_1.split(",") if x.strip()]
+                self.variable_2 = len(self.data_1) - 1
+                
+                
+
+                self.data_2 = [float(x.strip()) for x in raw_text_2.split(",") if x.strip()]
+                self.variable_4 = len(self.data_2)
+                
+
+                if self.variable_2 == 0 or self.variable_4 == 0 :
+                     raise ZeroDivisionError
+                
+                if self.variable_2 + 1 != self.variable_4:
+                     self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Dataset Length!</span>"
+
+                else:
+                    self.variable_2_display = self.variable_2 
+                    self.variable_1 = sum(self.data_1) / (self.variable_2 + 1) 
+                    self.variable_3 = sum(self.data_2) / self.variable_4 
+                    self.variable_1_display = f"{self.variable_1:.2f}"
+                    self.variable_3_display = f"{self.variable_3:.2f}"
+
+                
+            except ValueError:
+                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+
+            except ZeroDivisionError:
+                pass
+
+
+    
+            
+        html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0">
                 <tr>
                     <td valign="middle" style="padding-right: 10px;">
-                        <i>f({variable_3})</i> = 
+                        <i>S<sub>XY</sub></i> = 
                     </td>
                     
                     <td valign="middle">
                         <table cellpadding="0" cellspacing="0">
                             <tr>
                                 <td align="center" style="border-bottom: 2px solid currentColor; padding: 0px 8px;">
-                                    {variable_1} &middot; {variable_2}<sup>{variable_1}</sup>
+                                    &Sigma;<sub>i</sub><sup>{self.variable_4_display}</sup>(x<sub>i</sub> - {self.variable_1_display})(y<sub>i</sub> - {self.variable_3_display})
                                 </td>
                             </tr>
                             <tr>
                                 <td align="center" style="padding: 4px 8px 0px 8px;">
-                                    {variable_3}<sup>{variable_1} + 1</sup>
+                                    {self.variable_2_display}
                                 </td>
                             </tr>
                         </table>
@@ -159,26 +186,19 @@ class OperationWidget(QWidget):
                 </tr>
             </table>
             """
-            self.dynamic_formula.setText(html_formul)
+        self.dynamic_formula.setText(html_formul)
 
     def calculate_button_function(self):
         try:
-            variable_1 = float(self.variable_1_input.text())
-            variable_2 = float(self.variable_2_input.text())
-            variable_3 = float(self.variable_3_input.text())
-            variable_4 = float(self.variable_4_input.text())
-
-            if variable_3 < variable_2:
-                 self.current_result = "<span style='color: #EF4444; font-size: 20px;'>x >= Xm</span>"
-                
-            else:
-
-                result = (variable_1 * (variable_2 ** variable_1)) / (variable_3 ** (variable_1 + 1))
+                result = sum((x - self.variable_1) * (y - self.variable_3) for x, y in zip(self.data_1, self.data_2))/self.variable_2
 
                 self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
-        except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Number!</span>"
+        except TypeError:
+            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+
+        except AttributeError:
+             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>No Data!</span>"
         self.update_formula_display()
 
 

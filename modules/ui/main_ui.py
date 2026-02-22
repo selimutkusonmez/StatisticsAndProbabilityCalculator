@@ -20,7 +20,7 @@ class MainUI(QMainWindow):
 
     def init_ui(self):
 
-        self.setFixedSize(900,550)
+        self.setMinimumSize(1000,550)
 
 
         #Central Widget created

@@ -3,10 +3,6 @@ from PyQt6.QtWidgets import QWidget,QLineEdit,QPushButton,QLabel,QGridLayout,QGr
 from PyQt6.QtGui import QIcon,QIntValidator,QDoubleValidator,QRegularExpressionValidator
 import math
 
-from config import STYLE_PATH
-
-from modules.logic.style_reader.style_reader import read_style
-
 class OperationWidget(QWidget):
     def __init__(self,operation_name):
         super().__init__()
@@ -113,7 +109,7 @@ class OperationWidget(QWidget):
             try:
                 self.data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
                 self.variable_2 = len(self.data) - 1
-                self.variable_1 = sum(self.data)
+                self.variable_1 = sum(self.data) / (self.variable_2 + 1)
                 
             except ValueError:
                 self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
@@ -153,9 +149,9 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-                result = math.sqrt(sum((x - (sum(self.data) / (self.variable_2 + 1))) ** 2 for x in self.data)/self.variable_2)
+            result = math.sqrt(sum((x - self.variable_1) ** 2 for x in self.data)/self.variable_2)
 
-                self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
+            self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except TypeError:
             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"

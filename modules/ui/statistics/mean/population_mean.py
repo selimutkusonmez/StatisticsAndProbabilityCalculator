@@ -2,10 +2,6 @@ from PyQt6.QtCore import Qt,QRegularExpression,QSize
 from PyQt6.QtWidgets import QWidget,QLineEdit,QPushButton,QLabel,QGridLayout,QGroupBox,QComboBox,QListWidget,QTextEdit,QVBoxLayout,QPlainTextEdit
 from PyQt6.QtGui import QIcon,QIntValidator,QDoubleValidator,QRegularExpressionValidator
 
-from config import STYLE_PATH
-
-from modules.logic.style_reader.style_reader import read_style
-
 class OperationWidget(QWidget):
     def __init__(self,operation_name):
         super().__init__()
@@ -37,7 +33,7 @@ class OperationWidget(QWidget):
 
         self.calculate_button = QPushButton("Calculate")
         self.calculate_button.clicked.connect(self.calculate_button_function)
-        self.left_group_box_layout.addWidget(self.calculate_button,4,0,1,2)
+        self.left_group_box_layout.addWidget(self.calculate_button,2,0,1,2)
 
         #Middle GroupBox
         self.middle_group_box = QGroupBox()

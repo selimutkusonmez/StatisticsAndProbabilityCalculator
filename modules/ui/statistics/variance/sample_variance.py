@@ -2,10 +2,6 @@ from PyQt6.QtCore import Qt,QRegularExpression,QSize
 from PyQt6.QtWidgets import QWidget,QLineEdit,QPushButton,QLabel,QGridLayout,QGroupBox,QComboBox,QListWidget,QTextEdit,QVBoxLayout
 from PyQt6.QtGui import QIcon,QIntValidator,QDoubleValidator,QRegularExpressionValidator
 
-from config import STYLE_PATH
-
-from modules.logic.style_reader.style_reader import read_style
-
 class OperationWidget(QWidget):
     def __init__(self,operation_name):
         super().__init__()
@@ -91,7 +87,6 @@ class OperationWidget(QWidget):
         self.variable_3_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
 
-
         self.update_formula_display()
 
         self.variable_1_input.textChanged.connect(self.reset_and_update_display)
@@ -113,7 +108,7 @@ class OperationWidget(QWidget):
             try:
                 self.data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
                 self.variable_2 = len(self.data) - 1
-                self.variable_1 = sum(self.data)
+                self.variable_1 = sum(self.data) / (self.variable_2 + 1)
                 
             except ValueError:
                 self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
@@ -153,7 +148,7 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-                result = sum((x - (sum(self.data) / (self.variable_2 + 1))) ** 2 for x in self.data)/self.variable_2
+                result = sum((x - self.variable_1) ** 2 for x in self.data)/self.variable_2
 
                 self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 

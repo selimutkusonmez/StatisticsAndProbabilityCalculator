@@ -9,7 +9,7 @@ class AppManager():
         self.main_ui = MainUI()
         
     def init_main_ui(self):
-        self.main_ui.show()
+        self.main_ui.showMaximized()
         sys.exit(self.app.exec())
 
 if __name__ == "__main__":

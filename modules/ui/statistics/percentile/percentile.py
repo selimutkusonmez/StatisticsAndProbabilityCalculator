@@ -14,7 +14,6 @@ class OperationWidget(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
-
         #Left GroupBox
         self.left_group_box = QGroupBox()
         self.left_group_box_layout = QGridLayout()
