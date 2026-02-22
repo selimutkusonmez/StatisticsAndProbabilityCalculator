@@ -39,9 +39,6 @@ class OperationsUI(QWidget):
                ],
 
                "Distribution Functions" : [
-                    ["PMF","PMF"],
-                    ["PDF","PDF"],
-                    ["CDF","CDF"],
                     ["Bernoulli Distribution","Bernoulli Distribution"],
                     ["Binomial Distribution","Binomial Distribution"],
                     ["Poisson Distribution","Poisson Distribution PMF","Poisson Distribution CDF"],
