@@ -26,16 +26,16 @@ class OperationWidget(QWidget):
 
         self.left_group_box.setFixedWidth(250)
 
-        self.variable_1 = QLabel("p")
-        self.left_group_box_layout.addWidget(self.variable_1,0,0)
+        self.variable_1_label = QLabel("p")
+        self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
         self.variable_1_input = QLineEdit()
         self.variable_1_input.setValidator(QRegularExpressionValidator(QRegularExpression("[0-9./ ]+")))
         self.variable_1_input.setPlaceholderText("Number Of Trials")
         self.left_group_box_layout.addWidget(self.variable_1_input,0,1)
 
-        self.variable_2 = QLabel("x")
-        self.left_group_box_layout.addWidget(self.variable_2,1,0)
+        self.variable_2_label = QLabel("x")
+        self.left_group_box_layout.addWidget(self.variable_2_label,1,0)
 
         self.variable_2_input = QLineEdit()
         self.variable_2_input.setValidator(self.regex)
