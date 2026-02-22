@@ -19,9 +19,6 @@ class OperationWidget(QWidget):
 
         self.current_result = "<i>Waiting...</i>"
 
-        validator = QDoubleValidator()
-        validator.setRange(0.0, 9999.0, 4)
-
         #Left GroupBox
         self.left_group_box = QGroupBox()
         self.left_group_box_layout = QGridLayout()
@@ -40,7 +37,7 @@ class OperationWidget(QWidget):
 
         self.calculate_button = QPushButton("Calculate")
         self.calculate_button.clicked.connect(self.calculate_button_function)
-        self.left_group_box_layout.addWidget(self.calculate_button,4,0,1,2)
+        self.left_group_box_layout.addWidget(self.calculate_button,2,0,1,2)
 
         #Middle GroupBox
         self.middle_group_box = QGroupBox()
@@ -80,12 +77,12 @@ class OperationWidget(QWidget):
         self.variable_1_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_1_info,0,1)
 
-        self.variable_1_info_label = QLabel("<i>x&#772;</i>")
-        self.right_group_box_layout.addWidget(self.variable_1_info_label,1,0)
+        self.variable_2_info_label = QLabel("<i>x&#772;</i>")
+        self.right_group_box_layout.addWidget(self.variable_2_info_label,1,0)
 
-        self.variable_1_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
-        self.variable_1_info.setReadOnly(True)
-        self.right_group_box_layout.addWidget(self.variable_1_info,1,1)
+        self.variable_2_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
+        self.variable_2_info.setReadOnly(True)
+        self.right_group_box_layout.addWidget(self.variable_2_info,1,1)
 
         self.variable_3_info_label = QLabel("n")
         self.right_group_box_layout.addWidget(self.variable_3_info_label,2,0)
@@ -115,7 +112,7 @@ class OperationWidget(QWidget):
         else : 
             try:
                 self.data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
-                self.variable_2 = len(self.data)
+                self.variable_2 = len(self.data) - 1
                 self.variable_1 = sum(self.data)
                 
             except ValueError:
@@ -156,12 +153,18 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-                result = sum((x - (sum(self.data) / self.variable_2)) ** 2 for x in self.data)/(self.variable_2 - 1)
+                result = sum((x - (sum(self.data) / (self.variable_2 + 1))) ** 2 for x in self.data)/self.variable_2
 
                 self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except TypeError:
             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+
+        except ZeroDivisionError:
+             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Can Not Be Divided By Zero!</span>"
+
+        except AttributeError:
+             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>No Data!</span>"
         self.update_formula_display()
 
 

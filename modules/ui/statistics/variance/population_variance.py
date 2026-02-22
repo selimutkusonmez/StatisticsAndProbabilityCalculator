@@ -164,6 +164,9 @@ class OperationWidget(QWidget):
 
         except TypeError:
             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+
+        except AttributeError:
+             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>No Data!</span>"
         self.update_formula_display()
 
 
