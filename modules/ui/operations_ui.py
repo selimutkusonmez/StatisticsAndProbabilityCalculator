@@ -1,9 +1,10 @@
 import sys
 import subprocess
 import importlib
+import os
 from PyQt6.QtCore import Qt,QRegularExpression,QSize,pyqtSignal
 from PyQt6.QtWidgets import (
-     QApplication,QWidget,QMainWindow,QLineEdit,QPushButton,QTextEdit,QLabel,QGridLayout,QFrame,QTableWidget,QTableWidgetItem,QGroupBox,QComboBox,QMessageBox,QFileDialog,QListWidget,QTabWidget,QVBoxLayout,QStatusBar,QSizePolicy,QHBoxLayout)
+     QApplication,QWidget,QMainWindow,QLineEdit,QPushButton,QTextEdit,QLabel,QGridLayout,QFrame,QTableWidget,QTableWidgetItem,QGroupBox,QComboBox,QMessageBox,QFileDialog,QListWidget,QTabWidget,QVBoxLayout,QStatusBar,QSizePolicy,QHBoxLayout,QListWidgetItem)
 from PyQt6.QtGui import QIcon,QPixmap,QIntValidator,QDoubleValidator,QRegularExpressionValidator,QKeyEvent,QPainter,QFontDatabase,QFont,QAction,QActionGroup
 
 from config import JPG_PATH
@@ -14,7 +15,19 @@ class OperationsUI(QWidget):
 
      def __init__(self):
           super().__init__()
+
+          self.icons_dir = os.path.join(JPG_PATH,"icons")
           self.init_ui()
+
+     def get_icon(self, name, sub_folder):
+          safe_name = name.lower().replace(" ", "_") + ".png"
+          icon_path = os.path.join(self.icons_dir, sub_folder, safe_name)
+          print(icon_path)
+          
+          if os.path.exists(icon_path):
+               return QIcon(icon_path)
+          else:
+               return QIcon()
      
      def init_ui(self):
         
@@ -63,11 +76,15 @@ class OperationsUI(QWidget):
           
           self.subjects_list_1 = QListWidget()
           self.subjects_list_1.setProperty("class","list")
+          self.subjects_list_1.setIconSize(QSize(150,150))
           self.subjects_list_1.itemDoubleClicked.connect(self.subjects_list_1_item_double_clicked)
           self.layout.addWidget(self.subjects_list_1)
 
           for key in self.subjects_dict.keys():
-               self.subjects_list_1.addItem(key)
+               item = QListWidgetItem(key)
+               icon = self.get_icon(key,"main_subjects")
+               item.setIcon(icon)
+               self.subjects_list_1.addItem(item)
 
      def subjects_list_1_item_double_clicked(self,item):
           if hasattr(self, "subjects_list_3"):
@@ -88,13 +105,17 @@ class OperationsUI(QWidget):
          
           self.subjects_list_2 = QListWidget()
           self.subjects_list_2.setProperty("class","list")
+          self.subjects_list_2.setIconSize(QSize(150,150))
           self.subjects_list_2.itemDoubleClicked.connect(self.subjects_list_2_item_double_clicked)
           self.layout.addWidget(self.subjects_list_2)
 
           self.main_subject = item.text()
           
           for i in self.subjects_dict[item.text()]:
-               self.subjects_list_2.addItem(i[0])
+               item = QListWidgetItem(i[0])
+               icon = self.get_icon(i[0],"sub_subjects")
+               item.setIcon(icon)
+               self.subjects_list_2.addItem(item)
           self.chosen_subject.emit(item.text())
 
      def subjects_list_2_item_double_clicked(self,item):
@@ -108,13 +129,17 @@ class OperationsUI(QWidget):
           
           self.subjects_list_3 = QListWidget()
           self.subjects_list_3.setProperty("class","list")
+          self.subjects_list_3.setIconSize(QSize(150,150))
           self.subjects_list_3.itemDoubleClicked.connect(self.subjects_list_3_item_double_clicked)
           self.layout.addWidget(self.subjects_list_3)
 
           self.sub_subject = item.text()
 
           for i in self.subjects_dict[self.main_subject][self.subjects_list_2.row(item)][1:]:
-               self.subjects_list_3.addItem(i)
+               item = QListWidgetItem(i)
+               icon = self.get_icon("operations","operations")
+               item.setIcon(icon)
+               self.subjects_list_3.addItem(item)
           self.chosen_subject.emit(item.text())
 
      def subjects_list_3_item_double_clicked(self,item):

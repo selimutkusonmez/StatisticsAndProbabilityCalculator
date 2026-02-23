@@ -42,6 +42,7 @@ QListWidget[class="list"] {
     border: 1px solid #444C56;
     border-radius: 6px;
     padding: 4px;
+    font-size : 20px;
     outline: none;
 }
 
@@ -177,12 +178,12 @@ QPushButton:pressed {
 
 #operation_name{
     color : #ADBAC7;
-    font-size : 20px;
+    font-size : 30px;
     font-weight : bold;
 }
 
 #dynamic_formula{
-    font-size: 28px;
+    font-size: 40px;
     font-family: 'Segoe UI', Arial, sans-serif;
     color: #ADBAC7;
     

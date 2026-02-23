@@ -1,19 +1,18 @@
-/* App Background */
 QMainWindow, #central_widget, #central_widget::pane {
-    background-color: #F8F9FA;
-    color: #1F2937; 
+    background-color: #EAECEF;
+    color: #24292F; 
+    border: none;
 }
 
-/* QTabWidget */
 QTabWidget::tab-bar {
     alignment: left;
 }
 
 QTabBar::tab {
-    background-color: #F3F4F6;
-    color: #6B7280;
+    background-color: #F6F8FA;
+    color: #57606A;
     padding: 8px 20px;
-    border: 1px solid #E5E7EB;
+    border: 1px solid #D0D7DE;
     border-bottom: none;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
@@ -21,8 +20,8 @@ QTabBar::tab {
 }
 
 QTabBar::tab:hover {
-    background-color: #E5E7EB;
-    color: #111827;
+    background-color: #EBEEF1;
+    color: #24292F;
 }
 
 QTabBar::tab:selected {
@@ -34,28 +33,25 @@ QTabBar::tab:!selected {
     margin-top: 2px;
 }
 
-
-/* QListWidgets in OperationsUI */
 QListWidget[class="list"] {
-    background-color: #FFFFFF;
-    border: 1px solid #E5E7EB;
+    background-color: #F6F8FA;
+    border: 1px solid #D0D7DE;
     border-radius: 6px;
     padding: 4px;
+    font-size : 20px;
     outline: none;
 }
 
-
-/* QListWidget Item */
 QListWidget[class="list"]::item {
     padding: 8px 12px;
     border-radius: 4px;
     margin-bottom: 2px;
-    color: #374151;
+    color: #24292F;
 }
 
 QListWidget[class="list"]::item:hover {
-    background-color: #F3F4F6;
-    color: #111827;
+    background-color: #EBEEF1;
+    color: #24292F;
 }
 
 QListWidget[class="list"]::item:selected {
@@ -63,12 +59,10 @@ QListWidget[class="list"]::item:selected {
     color: #FFFFFF;
 }
 
-
-/* Status Bar */
 QStatusBar {
-    background-color: #FFFFFF;
-    color: #6B7280;
-    border-top: 1px solid #E5E7EB;
+    background-color: #F6F8FA;
+    color: #57606A;
+    border-top: 1px solid #D0D7DE;
     padding-left: 8px;
 }
 
@@ -76,12 +70,10 @@ QStatusBar::item {
     border: none;
 }
 
-
-/* QMenuBar */
 QMenuBar {
-    background-color: #FFFFFF;
-    color: #374151;
-    border-bottom: 1px solid #E5E7EB;
+    background-color: #F6F8FA;
+    color: #24292F;
+    border-bottom: 1px solid #D0D7DE;
     padding: 2px;
 }
 
@@ -92,14 +84,12 @@ QMenuBar::item {
 }
 
 QMenuBar::item:selected { 
-    background-color: #F3F4F6;
+    background-color: #EBEEF1;
 }
 
-
-/* QMenu*/
 QMenu {
-    background-color: #FFFFFF;
-    border: 1px solid #E5E7EB;
+    background-color: #F6F8FA;
+    border: 1px solid #D0D7DE;
     border-radius: 6px;
     padding: 4px;
 }
@@ -107,7 +97,7 @@ QMenu {
 QMenu::item {
     padding: 6px 24px 6px 12px;
     border-radius: 4px;
-    color: #374151;
+    color: #24292F;
 }
 
 QMenu::item:selected {
@@ -115,15 +105,12 @@ QMenu::item:selected {
     color: #FFFFFF;
 }
 
-
-/* OPERATİON WİDGET */ 
-
 QGroupBox {
-    border: 1px solid #E5E7EB;
+    border: 1px solid #D0D7DE;
     border-radius: 6px;
     margin-top: 12px;
     padding-top: 16px;
-    background-color: #FFFFFF;
+    background-color: #F6F8FA;
 }
 
 QGroupBox::title {
@@ -131,20 +118,21 @@ QGroupBox::title {
     subcontrol-position: top left;
     left: 10px;
     padding: 0 4px;
-    color: #374151;
+    color: #24292F;
     font-weight: bold;
 }
 
 QLabel {
-    color: #374151;
+    font-size : 20px;
+    color: #24292F;
 }
 
 QLineEdit, QTextEdit {
-    background-color: #F8F9FA;
-    border: 1px solid #E5E7EB;
+    background-color: #EAECEF;
+    border: 1px solid #D0D7DE;
     border-radius: 4px;
     padding: 6px;
-    color: #1F2937;
+    color: #24292F;
 }
 
 QLineEdit:focus, QTextEdit:focus {
@@ -152,8 +140,8 @@ QLineEdit:focus, QTextEdit:focus {
 }
 
 QTextEdit[readOnly="true"] {
-    background-color: #F3F4F6;
-    color: #6B7280;
+    background-color: #EAECEF;
+    color: #57606A;
 }
 
 QPushButton {
@@ -174,14 +162,13 @@ QPushButton:pressed {
 }
 
 #operation_name{
-    color : #374151;
-    font-size : 20px;
+    color : #24292F;
+    font-size : 30px;
     font-weight : bold;
 }
 
 #dynamic_formula{
-    font-size: 28px;
+    font-size: 40px;
     font-family: 'Segoe UI', Arial, sans-serif;
-    color: #374151;
-    
+    color: #24292F;
 }

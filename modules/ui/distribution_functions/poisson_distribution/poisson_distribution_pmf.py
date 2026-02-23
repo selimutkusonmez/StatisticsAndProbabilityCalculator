@@ -140,7 +140,7 @@ class OperationWidget(QWidget):
             self.variable_2_display = "x"
 
         html_formul = f"""
-            <table align="center" cellpadding="0" cellspacing="0" style="font-size: 32px; font-family: 'Times New Roman', serif;">
+            <table align="center" cellpadding="0" cellspacing="0" style="font-size: 55px; font-family: 'Times New Roman', serif;">
                 <tr>
                     <td valign="middle" style="padding-right: 15px;">
                         <i>P(X = {self.variable_2_display})</i> = 
