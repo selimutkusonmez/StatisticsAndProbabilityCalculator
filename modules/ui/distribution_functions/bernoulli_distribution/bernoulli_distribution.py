@@ -135,7 +135,7 @@ class OperationWidget(QWidget):
         if self.variable_1 is not None: self.variable_1_display = f"{self.variable_1:.4f}"
 
         html_formul = f"""
-                    <table align="center" cellpadding="0" cellspacing="0" style="font-size: 32px; font-family: 'Times New Roman', serif;">
+                    <table align="center" cellpadding="0" cellspacing="0" >
                         <tr>
                             <td valign="middle" style="padding-right: 15px;">
                                 <i>P(X = {self.variable_2_display})</i> = 

@@ -153,7 +153,8 @@ class OperationWidget(QWidget):
                 self.variable_1 = sum(data) / len(data)
                 self.variable_1_display = f"{self.variable_1:.2f}"
                 if self.variable_3 == "Population":
-                        self.variable_2 = statistics.pstdev(data)
+                    self.variable_2 = statistics.pstdev(data)
+                    self.variable_2_display = f"{self.variable_2:.2f}" 
                 else:
                     self.variable_2 = statistics.stdev(data)
                     self.variable_2_display = f"{self.variable_2:.2f}"     
@@ -164,7 +165,7 @@ class OperationWidget(QWidget):
 
 
         html_formul = f"""
-            <table align="center" cellpadding="0" cellspacing="0" style="font-size: 45px; font-family: 'Times New Roman', serif;">
+            <table align="center" cellpadding="0" cellspacing="0" >
                 <tr>
                     <td valign="middle" style="padding-right: 22px;">
                         <i>f({self.variable_4_display})</i> = 

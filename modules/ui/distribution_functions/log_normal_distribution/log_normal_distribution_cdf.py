@@ -163,7 +163,7 @@ class OperationWidget(QWidget):
                 return
 
         html_formul = f"""
-            <table align="center" cellpadding="0" cellspacing="0" style="font-size: 38px; font-family: 'Times New Roman', serif;">
+            <table align="center" cellpadding="0" cellspacing="0" >
                 <tr>
                     <td valign="middle" style="padding-right: 15px;">
                         <i>F({self.variable_4_display})</i> = <i>P(X &le; {self.variable_4_display})</i> = 

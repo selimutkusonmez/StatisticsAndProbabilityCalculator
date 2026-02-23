@@ -183,7 +183,7 @@ class OperationWidget(QWidget):
                 self.variable_3_display = "[P(A) &times; P(B|A)]"
 
         html_formul = f"""
-                    <table align="center" cellpadding="0" cellspacing="0" style="font-size: 24px;">
+                    <table align="center" cellpadding="0" cellspacing="0">
                         <tr>
                             <td valign="middle" style="padding-right: 10px;">
                                 <i>P(A &cup; B)</i> = 

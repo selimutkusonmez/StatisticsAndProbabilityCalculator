@@ -169,6 +169,6 @@ QPushButton:pressed {
 
 #dynamic_formula{
     font-size: 40px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Times New Roman', serif;
     color: #24292F;
 }

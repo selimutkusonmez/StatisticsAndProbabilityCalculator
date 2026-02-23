@@ -159,7 +159,7 @@ class OperationWidget(QWidget):
             pass
 
         html_formul = f"""
-            <table align="center" cellpadding="0" cellspacing="0" style="font-size: 40px; font-family: 'Times New Roman', serif;">
+            <table align="center" cellpadding="0" cellspacing="0">
                 <tr>
                     <td valign="middle" style="padding-right: 15px;">
                         <i>f({self.variable_3_display})</i> = 

@@ -98,7 +98,7 @@ class OperationWidget(QWidget):
         self.variable_1_display = self.variable_1_input.text().strip() or "z"
 
         html_formul = f"""
-            <table align="center" cellpadding="0" cellspacing="0" style="font-size: 45px; font-family: 'Times New Roman', serif;">
+            <table align="center" cellpadding="0" cellspacing="0" >
                 <tr>
                     <td valign="middle" style="padding-right: 20px;">
                         <i>f({self.variable_1_display})</i> = 
