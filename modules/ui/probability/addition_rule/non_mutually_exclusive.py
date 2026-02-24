@@ -13,6 +13,8 @@ class OperationWidget(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
+        self.regex = QRegularExpressionValidator(QRegularExpression("[0-9./ ]+"))
+
         self.current_result = "<i>Waiting...</i>"
 
         #Left GroupBox
@@ -28,6 +30,7 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
         self.variable_1_input = QLineEdit()
+        self.variable_1_input.setValidator(self.regex)
         self.variable_1_input.setPlaceholderText("a/b or a.b")
         self.left_group_box_layout.addWidget(self.variable_1_input,0,1)
 
@@ -36,6 +39,7 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_2_label,1,0)
 
         self.variable_2_input = QLineEdit()
+        self.variable_2_input.setValidator(self.regex)
         self.variable_2_input.setPlaceholderText("c/d or c.d")
         self.left_group_box_layout.addWidget(self.variable_2_input,1,1)
 
@@ -44,6 +48,7 @@ class OperationWidget(QWidget):
         self.variable_4_label.hide()
 
         self.variable_4_input = QLineEdit()
+        self.variable_4_input.setValidator(self.regex)
         self.variable_4_input.setPlaceholderText("e/f or e.f")
         self.left_group_box_layout.addWidget(self.variable_4_input,2,1)
         self.variable_4_input.hide()
@@ -153,7 +158,7 @@ class OperationWidget(QWidget):
             if 0.0 <= val <= 1.0:
                 return val
             else:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>P must be between 1 and 0!</span>"
+                self.current_result = "<span style='color: #EF4444;'>P must be between 1 and 0!</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None
@@ -202,7 +207,7 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         if self.variable_1 is None or self.variable_2 is None:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
             self.update_formula_display()
             return
 
@@ -211,13 +216,12 @@ class OperationWidget(QWidget):
             self.update_formula_display()
             return
 
-        # Tüm veriler tamsa sonucu hesapla
         try:
             result = self.variable_1 + self.variable_2 - self.variable_3
             result = min(result, 1.0)
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
         except TypeError:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Calculation Error!</span>"
+             self.current_result = "<span style='color: #EF4444;'>Calculation Error!</span>"
 
         self.update_formula_display()
 

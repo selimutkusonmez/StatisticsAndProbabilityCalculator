@@ -15,6 +15,8 @@ class OperationWidget(QWidget):
 
         self.current_result = "<i>Waiting...</i>"
 
+        self.regex = QRegularExpressionValidator(QRegularExpression("[0-9./ ]+"))
+
         #Left GroupBox
         self.left_group_box = QGroupBox()
         self.left_group_box_layout = QGridLayout()
@@ -28,6 +30,7 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
         self.variable_1_input = QLineEdit()
+        self.variable_1_input.setValidator(self.regex)
         self.variable_1_input.setPlaceholderText("a/b or a.b")
         self.left_group_box_layout.addWidget(self.variable_1_input,0,1)
 
@@ -36,6 +39,7 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_2_label,1,0)
 
         self.variable_2_input = QLineEdit()
+        self.variable_2_input.setValidator(self.regex)
         self.variable_2_input.setPlaceholderText("c/d or c.d")
         self.left_group_box_layout.addWidget(self.variable_2_input,1,1)
 
@@ -115,7 +119,7 @@ class OperationWidget(QWidget):
             if 0.0 <= val <= 1.0:
                 return val
             else:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>P must be between 1 and 0!</span>"
+                self.current_result = "<span style='color: #EF4444;'>P must be between 1 and 0!</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None
@@ -160,10 +164,10 @@ class OperationWidget(QWidget):
                 self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except (TypeError,ValueError):
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
 
         except AttributeError:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>No Data!</span>"
+             self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
         self.update_formula_display()
 
 
