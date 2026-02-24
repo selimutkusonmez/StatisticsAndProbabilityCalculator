@@ -21,14 +21,14 @@ class OperationWidget(QWidget):
         self.left_group_box.setLayout(self.left_group_box_layout)
         self.layout.addWidget(self.left_group_box,0,0)
 
-        self.left_group_box.setFixedWidth(180)
+        self.left_group_box.setFixedWidth(250)
 
         self.variable_1_label = QLabel("Data 1")
         self.variable_1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
         self.variable_1_input = QTextEdit()
-        self.variable_1_input.setPlaceholderText("Seperated with comma")
+        self.variable_1_input.setPlaceholderText("Seperated with comma : [1,2,3,0.2,-1]")
         self.left_group_box_layout.addWidget(self.variable_1_input,1,0)
 
         self.variable_2_label = QLabel("Data 2")
@@ -36,7 +36,7 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_2_label,2,0)
 
         self.variable_2_input = QTextEdit()
-        self.variable_2_input.setPlaceholderText("Seperated with comma")
+        self.variable_2_input.setPlaceholderText("Seperated with comma : [1,2,3,0.2,-1]")
         self.left_group_box_layout.addWidget(self.variable_2_input,3,0)
 
         self.calculate_button = QPushButton("Calculate")
@@ -69,7 +69,7 @@ class OperationWidget(QWidget):
         self.right_group_box.setLayout(self.right_group_box_layout)
         self.layout.addWidget(self.right_group_box,0,2)
 
-        self.right_group_box.setFixedWidth(250)
+        self.right_group_box.setFixedWidth(300)
 
         self.variable_1_info_label = QLabel("&sigma;<sub>XY</sub>")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
@@ -121,43 +121,39 @@ class OperationWidget(QWidget):
         self.variable_3_display = "&mu;<sub>Y</sub>"
         self.variable_4_display = "N"
 
-        if not raw_text_1 or not raw_text_2:
-             pass
-            
+        if not raw_text_1:
+            self.variable_1 = None
+            self.variable_2 = None
+
         else : 
             try:
                 self.data_1 = [float(x.strip()) for x in raw_text_1.split(",") if x.strip()]
                 self.variable_2 = len(self.data_1)
-                
-                
+                self.variable_1 = sum(self.data_1) / self.variable_2
+                self.variable_1_display = f"{self.variable_1:.2f}"
+                self.variable_2_display = f"{self.variable_2}"
 
-                self.data_2 = [float(x.strip()) for x in raw_text_2.split(",") if x.strip()]
-                self.variable_4 = len(self.data_2)
-                
+            except ValueError:
+                self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
+            except ZeroDivisionError:
+               pass
 
-                if self.variable_2 == 0 or self.variable_4 == 0 :
-                     raise ZeroDivisionError
-                
-                if self.variable_2 != self.variable_4:
-                     self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Dataset Length!</span>"
-
-                else:
-                    self.variable_2_display = self.variable_2
-                    self.variable_1 = sum(self.data_1) / self.variable_2 
+        if not raw_text_2:
+            self.variable_3 = None
+            self.variable_4 = None
+        else:
+                try:
+                    self.data_2 = [float(x.strip()) for x in raw_text_2.split(",") if x.strip()]
+                    self.variable_4 = len(self.data_2)
                     self.variable_3 = sum(self.data_2) / self.variable_4 
-                    self.variable_1_display = f"{self.variable_1:.2f}"
                     self.variable_3_display = f"{self.variable_3:.2f}"
 
-                
-            except ValueError:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+                    if self.variable_2 != self.variable_4:
+                        self.current_result = "<span style='color: #EF4444;'>Invalid Dataset Length!</span>"
+                except ValueError:
+                    self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
+             
 
-            except ZeroDivisionError:
-                pass
-
-
-    
-            
         html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0">
                 <tr>
@@ -190,15 +186,15 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-                result = sum((x - self.variable_1) * (y - self.variable_3) for x, y in zip(self.data_1, self.data_2))/self.variable_2
+            result = sum((x - self.variable_1) * (y - self.variable_3) for x, y in zip(self.data_1, self.data_2))/self.variable_2
 
-                self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
+            self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except TypeError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
 
         except AttributeError:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>No Data!</span>"
+             self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
         self.update_formula_display()
 
 

@@ -21,14 +21,14 @@ class OperationWidget(QWidget):
         self.left_group_box.setLayout(self.left_group_box_layout)
         self.layout.addWidget(self.left_group_box,0,0)
 
-        self.left_group_box.setFixedWidth(180)
+        self.left_group_box.setFixedWidth(250)
 
         self.variable_1_label = QLabel("Data")
         self.variable_1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
         self.variable_1_input = QTextEdit()
-        self.variable_1_input.setPlaceholderText("Seperated with comma")
+        self.variable_1_input.setPlaceholderText("Seperated with comma : [1,2,3,0.2,-1]")
         self.left_group_box_layout.addWidget(self.variable_1_input,1,0)
 
         self.calculate_button = QPushButton("Calculate")
@@ -61,7 +61,7 @@ class OperationWidget(QWidget):
         self.right_group_box.setLayout(self.right_group_box_layout)
         self.layout.addWidget(self.right_group_box,0,2)
 
-        self.right_group_box.setFixedWidth(225)
+        self.right_group_box.setFixedWidth(300)
 
         self.variable_1_info_label = QLabel("&sigma;<sup>2</sup>")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
@@ -102,19 +102,23 @@ class OperationWidget(QWidget):
             
         raw_text = self.variable_1_input.toPlainText().strip()
         if not raw_text:
-                self.variable_1 = "&mu;"
-                self.variable_2 = "N"
-            
+                self.variable_1_display = "&mu;"
+                self.variable_2_display = "N"
+                self.variable_1 = None
+                self.variable_2 = None
+                self.data = None
         else : 
             try:
                 self.data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
                 self.variable_2 = len(self.data)
                 self.variable_1 = sum(self.data) / self.variable_2
+                self.variable_1_display = f"{self.variable_1:.2f}"
+                self.variable_2_display = f"{self.variable_2:.2f}"
                 
             except ValueError:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
-                self.variable_1 = "&mu;"
-                self.variable_2 = "N"
+                self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
+                self.variable_1_display = "&mu;"
+                self.variable_2_display = "N"
     
             
         html_formul = f"""
@@ -128,12 +132,12 @@ class OperationWidget(QWidget):
                         <table cellpadding="0" cellspacing="0">
                             <tr>
                                 <td align="center" style="border-bottom: 2px solid currentColor; padding: 0px 8px;">
-                                    &Sigma;(x<sub>i</sub> - {self.variable_1})<sup>2</sup>
+                                    &Sigma;(x<sub>i</sub> - {self.variable_1_display})<sup>2</sup>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="center" style="padding: 4px 8px 0px 8px;">
-                                    {self.variable_2}
+                                    {self.variable_2_display}
                                 </td>
                             </tr>
                         </table>
@@ -154,10 +158,10 @@ class OperationWidget(QWidget):
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except TypeError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
 
         except AttributeError:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>No Data!</span>"
+            self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
         self.update_formula_display()
 
 

@@ -22,7 +22,6 @@ class OperationsUI(QWidget):
      def get_icon(self, name, sub_folder):
           safe_name = name.lower().replace(" ", "_") + ".png"
           icon_path = os.path.join(self.icons_dir, sub_folder, safe_name)
-          print(icon_path)
           
           if os.path.exists(icon_path):
                return QIcon(icon_path)

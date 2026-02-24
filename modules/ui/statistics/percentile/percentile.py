@@ -20,14 +20,14 @@ class OperationWidget(QWidget):
         self.left_group_box.setLayout(self.left_group_box_layout)
         self.layout.addWidget(self.left_group_box,0,0)
 
-        self.left_group_box.setFixedWidth(180)
+        self.left_group_box.setFixedWidth(250)
 
         self.variable_1_label = QLabel("Data")
         self.variable_1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.left_group_box_layout.addWidget(self.variable_1_label,0,0)
 
         self.variable_1_input = QTextEdit()
-        self.variable_1_input.setPlaceholderText("Seperated with comma")
+        self.variable_1_input.setPlaceholderText("Seperated with comma : [1,2,3,0.2,-1]")
         self.left_group_box_layout.addWidget(self.variable_1_input,1,0)
 
         #Middle GroupBox
@@ -56,7 +56,7 @@ class OperationWidget(QWidget):
         self.right_group_box.setLayout(self.right_group_box_layout)
         self.layout.addWidget(self.right_group_box,0,2)
 
-        self.right_group_box.setFixedWidth(225)
+        self.right_group_box.setFixedWidth(300)
 
         self.variable_1_info_label = QLabel("25th")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
@@ -109,9 +109,9 @@ class OperationWidget(QWidget):
                 self.variable_3 = np.percentile(self.data, 75)
 
             except ValueError:
-                self.variable_1 = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
-                self.variable_2 = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
-                self.variable_3 = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+                self.variable_1 = "<span style='color: #EF4444;'>Invalid Input!</span>"
+                self.variable_2 = "<span style='color: #EF4444;'>Invalid Input!</span>"
+                self.variable_3 = "<span style='color: #EF4444;'>Invalid Input!</span>"
     
             
         html_formul = f"""

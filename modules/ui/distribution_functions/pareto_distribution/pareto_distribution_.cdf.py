@@ -25,7 +25,7 @@ class OperationWidget(QWidget):
         self.left_group_box.setLayout(self.left_group_box_layout)
         self.layout.addWidget(self.left_group_box,0,0)
 
-        self.left_group_box.setFixedWidth(125)
+        self.left_group_box.setFixedWidth(250)
 
         self.variable_1 = QLabel("1")
         self.left_group_box_layout.addWidget(self.variable_1,0,0)
@@ -81,7 +81,7 @@ class OperationWidget(QWidget):
         self.right_group_box.setLayout(self.right_group_box_layout)
         self.layout.addWidget(self.right_group_box,0,2)
 
-        self.right_group_box.setFixedWidth(225)
+        self.right_group_box.setFixedWidth(300)
 
         self.variable_1_info_label = QLabel("1")
         self.right_group_box_layout.addWidget(self.variable_1_info_label,0,0)
