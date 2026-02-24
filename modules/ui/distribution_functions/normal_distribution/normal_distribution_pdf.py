@@ -133,7 +133,7 @@ class OperationWidget(QWidget):
 
     def update_formula_display(self):
         self.variable_3 = self.variable_3_input.currentText()
-        self.variable_4_display =  self.variable_2_input.text().strip() or "x"
+        self.variable_4_display = self.variable_2_input.text().strip() or  "x"
         if self.variable_3 == "Population":
             self.variable_2_display = "<i>&sigma;</i>"
             self.variable_1_display = "<i>&mu;</i>"
@@ -143,7 +143,8 @@ class OperationWidget(QWidget):
         
         raw_text = self.variable_1_input.toPlainText().strip()
         if not raw_text:
-            pass
+            self.variable_1 = None
+            self.variable_2 = None
         else : 
             try:
                 data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
@@ -154,10 +155,13 @@ class OperationWidget(QWidget):
                 else:
                     self.variable_2 = statistics.stdev(data)
                 self.variable_2_display = f"{self.variable_2:.2f}"
+            except ZeroDivisionError:
+                pass
             except ValueError:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+                self.current_result = "<span style='color: #EF4444; '>Invalid Input!</span>"
                 self.variable_1 = "<i>&mu;</i>"
 
+    
 
         html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0" >
@@ -212,17 +216,21 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-            x = float(self.variable_4_display)
-            result = (1 / (self.variable_2 * math.sqrt(2 * math.pi))) * (math.e ** (-((x - self.variable_1)**2) / (2 * (self.variable_2 ** 2))))
-
+            self.variable_4 = int(self.variable_4_display)
+            result = (1 / (self.variable_2 * math.sqrt(2 * math.pi))) * (math.e ** (-((self.variable_4 - self.variable_1)**2) / (2 * (self.variable_2 ** 2))))
+        
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Invalid X Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Data length &gt; 1!</span>"
+        except AttributeError:
+            self.current_result = "<span style='color: #EF4444; '>No Data!</span>"
+        except TypeError:
+            self.current_result = "<span style='color: #EF4444; '>No Data!</span>"
         except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Error!</span>"
 
         self.update_formula_display()
 

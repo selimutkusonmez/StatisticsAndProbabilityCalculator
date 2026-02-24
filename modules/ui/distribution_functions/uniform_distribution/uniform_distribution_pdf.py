@@ -133,21 +133,46 @@ class OperationWidget(QWidget):
         self.update_formula_display()
 
     def update_formula_display(self):
-        self.variable_1_display = self.variable_1_input.text().strip() or "x"
-        self.variable_2_display = self.variable_2_input.text().strip() or "a"
-        self.variable_3_display = self.variable_3_input.text().strip() or "b"
+        self.variable_1_display = "x"
+        self.variable_2_display = "a"
+        self.variable_3_display = "b"
+
+        self.variable_1_raw = self.variable_1_input.text().strip()
+        self.variable_2_raw = self.variable_2_input.text().strip()
+        self.variable_3_raw = self.variable_3_input.text().strip()
+
+        if not self.variable_1_raw :
+            self.variable_1 = None
+        else:
+            try:
+                self.variable_1 = float(self.variable_1_raw)
+                self.variable_1_display = f"{self.variable_1:.1f}"
+            except:
+                pass
+
+        if not self.variable_2_raw:
+            self.variable_2 = None
+        else:
+            try:
+                self.variable_2 = float(self.variable_2_raw)
+                self.variable_2_display = f"{self.variable_2:.1f}"
+            except:
+                pass
+
+        if not self.variable_3_raw:
+            self.variable_3 = None
+        else:
+            try:
+                self.variable_3 = float(self.variable_3_raw)
+                self.variable_3_display = f"{self.variable_3:.1f}"
+            except:
+                pass
 
         try:
-            self.variable_1 = float(self.variable_1_display)
-            self.variable_2  = float(self.variable_2_display)
-            self.variable_3  = float(self.variable_3_display)
-
+            float(self.variable_2_raw)
+            float(self.variable_3_raw)
             if self.variable_2 >= self.variable_3:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>b > a!</span>"
-            else:
-                self.variable_1_display = f"{self.variable_1:.2f}"
-                self.variable_2_display = f"{self.variable_2:.2f}"
-                self.variable_3_display = f"{self.variable_3:.2f}"
+                self.current_result = "<span style='color: #EF4444;'>b must be &gt; a!</span>" 
 
         except ValueError:
             pass
@@ -164,7 +189,7 @@ class OperationWidget(QWidget):
                     </td>
 
                     <td valign="middle">
-                        <table cellpadding="0" cellspacing="0" style="font-size: 28px;">
+                        <table cellpadding="0" cellspacing="0" style="font-size: 32px;">
                             <tr>
                                 <td valign="middle" align="center">
                                     <table cellpadding="0" cellspacing="0">
@@ -205,11 +230,13 @@ class OperationWidget(QWidget):
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Div by Zero!</span>"
+        except TypeError:
+            self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
         except Exception:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Error!</span>"
 
         self.update_formula_display()
 

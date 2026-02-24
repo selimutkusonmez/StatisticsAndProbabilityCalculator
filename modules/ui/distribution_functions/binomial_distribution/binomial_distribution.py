@@ -141,20 +141,52 @@ class OperationWidget(QWidget):
             if 0.0 <= val <= 1.0:
                 return val
             else:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>P must be between 1 and 0!</span>"
+                self.current_result = "<span style='color: #EF4444;'>P must be between 1 and 0!</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None
 
     def update_formula_display(self):
-        self.variable_1_display = self.variable_1_input.text().strip() or "n"
+        raw_variable_1 = self.variable_1_input.text().strip()
+        raw_variable_3= self.variable_3_input.text().strip()
+
+        self.variable_1_display = "n"
         self.variable_2_display = "p"
-        self.variable_3_display = self.variable_3_input.text().strip() or "x"
+        self.variable_3_display = "x"
 
         self.variable_2 = self.parse_probability(self.variable_2_input.text().strip())
 
-        if self.variable_2 is not None: self.variable_2_display = f"{self.variable_2:.5f}"
+        if self.variable_2 is not None: self.variable_2_display = f"{self.variable_2:.3f}"
 
+        if not raw_variable_1:
+            self.variable_1 = None
+        else:
+            try:
+                self.variable_1 = int(raw_variable_1)
+                if self.variable_1 == 0:
+                    self.current_result = "<span style='color: #EF4444;'>'n' must be > 0!</span>"
+                else:
+                    self.variable_1_display = f"{self.variable_1}"
+            except:
+                pass
+            
+        if not raw_variable_3:
+            self.variable_3= None
+        else:
+            try:
+                self.variable_3 = int(raw_variable_3)
+                self.variable_3_display = f"{self.variable_3}"
+            except:
+                return
+            
+        try:
+            int(self.variable_1)
+            int(self.variable_3)
+            if self.variable_3 > self.variable_1:
+                self.current_result = "<span style='color: #EF4444;'>x must be 0 to n!</span>"
+        except:
+            pass
+            
         
         html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0" >
@@ -192,26 +224,19 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-            n = int(self.variable_1_display)
-            x = int(self.variable_3_display)
-            if x < 0 or x > n:
-                self.current_result = "<span style='color: #F59E0B; font-size: 16px;'>'x' must be 0 to n!</span>"
-            if n <= 0:
-                self.current_result = "<span style='color: #F59E0B; font-size: 16px;'>'n' must be > 0!</span>"
-            else:
-                combination = math.comb(n,x)
-                success_prob = self.variable_2 ** x
-                failure_prob = (1 - self.variable_2) ** (n - x)
-                result = combination * success_prob * failure_prob
+            combination = math.comb(self.variable_1,self.variable_3)
+            success_prob = self.variable_2 ** self.variable_3
+            failure_prob = (1 - self.variable_2) ** (self.variable_1 - self.variable_3)
+            result = combination * success_prob * failure_prob
 
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Div by Zero!</span>"
         except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+             self.current_result = "<span style='color: #EF4444;'>Error!</span>"
 
         self.update_formula_display()
 

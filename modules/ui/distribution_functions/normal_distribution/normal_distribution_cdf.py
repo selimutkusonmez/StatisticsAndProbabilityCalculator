@@ -143,7 +143,9 @@ class OperationWidget(QWidget):
         
         raw_text = self.variable_1_input.toPlainText().strip()
         if not raw_text:
-            pass
+            self.variable_1 = None
+            self.variable_2 = None
+            self.variable_3 = None
         else : 
             try:
                 data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
@@ -154,8 +156,10 @@ class OperationWidget(QWidget):
                 else:
                     self.variable_2 = statistics.stdev(data)
                 self.variable_2_display = f"{self.variable_2:.2f}"
+            except ZeroDivisionError:
+                pass
             except ValueError:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+                self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
                 self.variable_1 = "<i>&mu;</i>"
 
 
@@ -226,18 +230,22 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-            x = float(self.variable_4_display)
-            z_score = (x - self.variable_1) / self.variable_2
+            self.variable_4 = int(self.variable_4_display)
+            z_score = (self.variable_4 - self.variable_1) / self.variable_2
             result = 0.5 * (1 + math.erf(z_score / math.sqrt(2)))
 
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Invalid X Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
-        except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Data length &gt; 1!</span>"
+        except AttributeError:
+            self.current_result = "<span style='color: #EF4444; '>No Data!</span>"
+        except TypeError:
+            self.current_result = "<span style='color: #EF4444; '>No Data!</span>"
+        except Exception :
+            self.current_result = "<span style='color: #EF4444;'>Error!</span>"
 
         self.update_formula_display()
 

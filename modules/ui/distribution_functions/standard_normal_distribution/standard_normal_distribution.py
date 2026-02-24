@@ -122,16 +122,16 @@ class OperationWidget(QWidget):
                     <td valign="middle" style="padding-left: 5px;">
                         <table cellpadding="0" cellspacing="0">
                             <tr>
-                                <td valign="bottom" style="font-size: 51px; padding-right: 0px;">
+                                <td valign="center" style="font-size: 51px; padding-right: 0px;">
                                     <i>e</i>
                                 </td>
                                 <td valign="top" style="padding-bottom: 28px; padding-left: 2px;">
-                                    <table cellpadding="0" cellspacing="0" style="font-size: 20px;">
+                                    <table cellpadding="0" cellspacing="0" style="font-size: 30px;">
                                         <tr>
-                                            <td rowspan="2" valign="middle" style="padding-right: 4px; font-size: 24px;">
+                                            <td rowspan="2" valign="middle" style="padding-right: 4px; font-size: 25px;">
                                                 &minus;
                                             </td>
-                                            <td align="center" style="border-bottom: 1.5px solid currentColor; padding: 0px 2px 1px 2px;">
+                                            <td align="center" style="border-bottom: 2px solid currentColor; padding: 0px 2px 1px 2px;">
                                                 {self.variable_1_display}<sup>2</sup>
                                             </td>
                                         </tr>
@@ -162,11 +162,11 @@ class OperationWidget(QWidget):
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Invalid Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Div by Zero!</span>"
         except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+             self.current_result = "<span style='color: #EF4444; '>Error!</span>"
 
         self.update_formula_display()
 

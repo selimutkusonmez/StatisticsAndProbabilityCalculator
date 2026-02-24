@@ -17,7 +17,7 @@ class OperationWidget(QWidget):
 
         self.current_result = "<i>Waiting...</i>"
 
-        self.regex = QRegularExpressionValidator(QRegularExpression("[-0-9. ]+"))
+        self.regex = QRegularExpressionValidator(QRegularExpression("[0-9. ]+"))
 
         #Left GroupBox
         self.left_group_box = QGroupBox()
@@ -32,7 +32,7 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_1_label,0,0,1,2)
 
         self.variable_1_input = QTextEdit()
-        self.variable_1_input.setPlaceholderText("Seperated by comma")
+        self.variable_1_input.setPlaceholderText("Seperated with comma : [1,2,3,0.2,4]")
         self.left_group_box_layout.addWidget(self.variable_1_input,1,0,1,2)
 
         self.variable_2_label = QLabel("x")
@@ -143,26 +143,28 @@ class OperationWidget(QWidget):
         
         raw_text = self.variable_1_input.toPlainText().strip()
         if not raw_text:
-            pass
+            self.variable_1 = None
+            self.variable_2 = None
         else : 
             try:
                 data = [float(x.strip()) for x in raw_text.split(",") if x.strip()]
                 data = [math.log(d) for d in data if d > 0]
                 if not data:
-                    raise ValueError
+                    raise ZeroDivisionError
                 self.variable_1 = sum(data) / len(data)
                 self.variable_1_display = f"{self.variable_1:.2f}"
                 if self.variable_3 == "Population":
                     self.variable_2 = statistics.pstdev(data)
-                    self.variable_2_display = f"{self.variable_2:.2f}" 
                 else:
                     self.variable_2 = statistics.stdev(data)
-                    self.variable_2_display = f"{self.variable_2:.2f}"     
+                self.variable_2_display = f"{self.variable_2:.2f}"  
+                       
             except ValueError:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input! All Values Must be > 0</span>"
+                self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
                 self.variable_1 = "<i>&mu;</i>"
-                return
-
+            except :
+                self.current_result = "<span style='color: #EF4444;'>All Values Must be > 0</span>"
+                self.variable_1 = "<i>&mu;</i>"
 
         html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0" >
@@ -217,19 +219,21 @@ class OperationWidget(QWidget):
 
     def calculate_button_function(self):
         try:
-            x = float(self.variable_4_display)
-            if x <= 0:result = 0
+            self.variable_4= float(self.variable_4_display)
+            if self.variable_4 <= 0:result = 0
             else:
-                result = (1 / (x * self.variable_2 * math.sqrt(2 * math.pi))) * (math.e ** (-((math.log(x) - self.variable_1)**2) / (2 * (self.variable_2 ** 2))))
+                result = (1 / (self.variable_4 * self.variable_2 * math.sqrt(2 * math.pi))) * (math.e ** (-((math.log(self.variable_4) - self.variable_1)**2) / (2 * (self.variable_2 ** 2))))
 
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>No X Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Data length &gt; 1!</span>"
+        except TypeError:
+            self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
         except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+             self.current_result = "<span style='color: #EF4444;'>Error!</span>"
 
         self.update_formula_display()
 

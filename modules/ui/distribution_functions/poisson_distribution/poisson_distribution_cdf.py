@@ -16,7 +16,7 @@ class OperationWidget(QWidget):
 
         self.current_result = "<i>Waiting...</i>"
 
-        self.regex = QRegularExpressionValidator(QRegularExpression("[1-9 ]+"))
+        self.regex = QRegularExpressionValidator(QRegularExpression("[0-9 ]+"))
 
         #Left GroupBox
         self.left_group_box = QGroupBox()
@@ -119,7 +119,7 @@ class OperationWidget(QWidget):
             if val > 0:
                 return val
             else:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>&lambda; must be greater than 0</span>"
+                self.current_result = "<span style='color: #EF4444; '>&lambda; must be greater than 0</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None
@@ -130,7 +130,7 @@ class OperationWidget(QWidget):
 
         self.variable_1 = self.parse_probability(self.variable_1_input.text().strip())
 
-        if self.variable_1 is not None: self.variable_1_display = f"{self.variable_1:.4f}"
+        if self.variable_1 is not None: self.variable_1_display = f"{self.variable_1:.3f}"
 
         try:
             self.variable_2 = int(self.variable_2_input.text().strip())
@@ -189,11 +189,11 @@ class OperationWidget(QWidget):
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Invalid Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444; '>Div by Zero!</span>"
         except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+             self.current_result = "<span style='color: #EF4444; '>Error!</span>"
 
         self.update_formula_display()
 

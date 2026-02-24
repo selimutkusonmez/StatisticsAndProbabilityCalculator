@@ -16,8 +16,6 @@ class OperationWidget(QWidget):
 
         self.current_result = "<i>Waiting...</i>"
 
-        self.regex = QRegularExpressionValidator(QRegularExpression("[0-9 ]+"))
-
         #Left GroupBox
         self.left_group_box = QGroupBox()
         self.left_group_box_layout = QGridLayout()
@@ -38,8 +36,8 @@ class OperationWidget(QWidget):
         self.left_group_box_layout.addWidget(self.variable_2_label,1,0)
 
         self.variable_2_input = QLineEdit()
-        self.variable_2_input.setValidator(self.regex)
-        self.variable_2_input.setPlaceholderText("Target Successes")
+        self.variable_2_input.setValidator(QRegularExpressionValidator(QRegularExpression("[0-1]")))
+        self.variable_2_input.setPlaceholderText("Target 0(Failure) 1(Success)")
         self.left_group_box_layout.addWidget(self.variable_2_input,1,1)
 
         self.calculate_button = QPushButton("Calculate")
@@ -96,10 +94,9 @@ class OperationWidget(QWidget):
         self.variable_3_info_label = QLabel("x")
         self.right_group_box_layout.addWidget(self.variable_3_info_label,2,0)
 
-        self.variable_3_info = QTextEdit("<b>x or k (Target Successes):</b><br>"
-                                        "The exact number of successful outcomes you want to find the probability for. "
-                                        "This must be a whole number between 0 and <i>n</i>.<br>"
-                                        "<i>(e.g., wanting exactly 3 heads out of 10 flips &rarr; x = 3)</i>")
+        self.variable_3_info = QTextEdit("<b>x(Target):</b><br>"
+                                        "In a Bernoulli distribution, 'x' represents the binary outcome of a single event.<br>"
+                                        "It takes the value 1 for a 'success' and 0 for a 'failure'.")
         self.variable_3_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
 
@@ -121,7 +118,7 @@ class OperationWidget(QWidget):
             if 0.0 <= val <= 1.0:
                 return val
             else:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>P must be between 1 and 0!</span>"
+                self.current_result = "<span style='color: #EF4444;'>P must be between 1 and 0!</span>"
         except (ValueError, ZeroDivisionError):
             pass
         return None
@@ -157,7 +154,7 @@ class OperationWidget(QWidget):
         try:
             x = int(self.variable_2_display)
             if x not in [0,1]:
-                self.current_result = "<span style='color: #EF4444; font-size: 20px;'>X must be 1 or 0!</span>"
+                self.current_result = "<span style='color: #EF4444;'>X must be 1 or 0!</span>"
                 self.update_formula_display()
                 return
             success_prob = self.variable_1 ** x
@@ -167,11 +164,11 @@ class OperationWidget(QWidget):
             self.current_result = f"<span style='color: #10B981; font-weight: bold;'>{result:.4f}</span>"
 
         except ValueError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Invalid Input!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
         except ZeroDivisionError:
-            self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Div by Zero!</span>"
+            self.current_result = "<span style='color: #EF4444;'>Div by Zero!</span>"
         except Exception:
-             self.current_result = "<span style='color: #EF4444; font-size: 20px;'>Error!</span>"
+             self.current_result = "<span style='color: #EF4444;'>Error!</span>"
 
         self.update_formula_display()
 
