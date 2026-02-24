@@ -83,14 +83,14 @@ class OperationWidget(QWidget):
         self.variable_2_info_label = QLabel("<i>x&#772;</i>")
         self.right_group_box_layout.addWidget(self.variable_2_info_label,1,0)
 
-        self.variable_2_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
+        self.variable_2_info = QTextEdit("<b><i>x&#772;</i> (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
         self.variable_2_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_2_info,1,1)
 
         self.variable_2_info_label = QLabel("<i>y&#772;</i>")
         self.right_group_box_layout.addWidget(self.variable_2_info_label,2,0)
 
-        self.variable_2_info = QTextEdit("<b>&mu; (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
+        self.variable_2_info = QTextEdit("<b><i>y&#772;</i> (Sample Mean):</b> The average value of all observations in the sample dataset.<br><br>")
         self.variable_2_info.setReadOnly(True)
         self.right_group_box_layout.addWidget(self.variable_2_info,2,1)
 
