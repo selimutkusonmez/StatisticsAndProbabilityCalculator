@@ -182,9 +182,6 @@ class MainUI(QMainWindow):
             return
 
     def close_tab_action_function(self,index):
-        index = index + 1
-
-        if index == 0:
-            return
-        else:
-            self.central_widget.removeTab(index)
+        current_index = self.central_widget.currentIndex()
+        if current_index != 0:
+            self.central_widget.removeTab(self.central_widget.currentIndex())
