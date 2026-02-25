@@ -277,11 +277,9 @@ class OperationWidget(QWidget):
                 decision_color = "#F59E0B"   
 
             result_html = f"""
-                <div style="text-align: left; padding-left: 10px;">
-                    <span style='color: #3B82F6; font-weight: bold;'>{z_score:.3f}</span><br>
-                    <span style='font-size: 20px; color: gray;'><i>p-value: {p_value:.4f}</i></span><br>
+                    <span style='color: #3B82F6; font-weight: bold;'>{z_score:.3f}</span>
+                    <span style='font-size: 20px; color: gray;'><i>p-value: {p_value:.4f}</i></span>
                     <span style='font-size: 25px; color: {decision_color}; font-weight: bold;'>{decision}</span>
-                </div>
             """
 
             self.current_result = result_html

@@ -180,7 +180,7 @@ class OperationWidget(QWidget):
                 self.variable_1 = sum(data) / len(data)
                 self.variable_3 = statistics.stdev(data)
                 self.variable_1_display = f"{self.variable_1:.2f}"
-                self.variable_2_display = f"{self.variable_2:.2f}"
+                self.variable_2_display = f"{self.variable_2}"
                 self.variable_3_display = f"{self.variable_3:.2f}"
             except ValueError:
                     self.current_result = "<span style='color: #EF4444;'>Invalid Input!</span>"
@@ -210,7 +210,7 @@ class OperationWidget(QWidget):
                 
                 self.variable_5_display = f"{self.variable_5:.2f}"
             except:
-                pass
+                self.current_result = "<span style='color: #EF4444;'> 0 &gt; &alpha; &lt; 1 !</span>"
 
         html_formul = f"""
             <table align="center" cellpadding="0" cellspacing="0">
@@ -264,11 +264,10 @@ class OperationWidget(QWidget):
                 decision_color = "#F59E0B"   
 
             result_html = f"""
-                <div style="text-align: left; padding-left: 10px;">
-                    <span style='color: #3B82F6; font-weight: bold;'>{t_score:.3f}</span><br>
-                    <span style='font-size: 20px; color: gray;'><i>p-value: {p_value:.4f}</i></span><br>
+                    <span style='color: #3B82F6; font-weight: bold;'>{t_score:.3f}</span>
+                    <span style='font-size: 20px; color: gray;'><i>p-value: {p_value:.4f}</i></span>
+                    <span style='font-size: 16px; color: gray;'><i>df: {df:.2f}</i></span>
                     <span style='font-size: 25px; color: {decision_color}; font-weight: bold;'>{decision}</span>
-                </div>
             """
 
             self.current_result = result_html
