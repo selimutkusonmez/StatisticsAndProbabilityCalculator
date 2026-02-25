@@ -168,7 +168,7 @@ QPushButton:pressed {
 }
 
 #dynamic_formula{
-    font-size: 40px;
+    font-size: {FONT_SIZE}px;
     font-family: 'Times New Roman', serif;
-    color: #24292F;
+    color: {FONT_COLOR};
 }

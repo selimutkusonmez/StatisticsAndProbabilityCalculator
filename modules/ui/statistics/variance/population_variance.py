@@ -1,6 +1,6 @@
-from PyQt6.QtCore import Qt,QRegularExpression,QSize
-from PyQt6.QtWidgets import QWidget,QLineEdit,QPushButton,QLabel,QGridLayout,QGroupBox,QComboBox,QListWidget,QTextEdit,QVBoxLayout
-from PyQt6.QtGui import QIcon,QIntValidator,QDoubleValidator,QRegularExpressionValidator
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget,QLineEdit,QPushButton,QLabel,QGridLayout,QGroupBox,QTextEdit,QVBoxLayout,QHBoxLayout
+
 
 class OperationWidget(QWidget):
     def __init__(self,operation_name):
@@ -40,13 +40,14 @@ class OperationWidget(QWidget):
         self.middle_group_box_layout = QVBoxLayout()
         self.middle_group_box.setLayout(self.middle_group_box_layout)
         self.layout.addWidget(self.middle_group_box,0,1)
-        self.middle_group_box_layout.addStretch()
+        
 
         self.operation_name = QLabel(self.operation_name)
         self.operation_name.setObjectName("operation_name")
         self.operation_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.middle_group_box_layout.addWidget(self.operation_name)
         self.middle_group_box_layout.addSpacing(30)
+        self.middle_group_box_layout.addStretch()
 
         self.dynamic_formula = QLabel()
         self.dynamic_formula.setObjectName("dynamic_formula")
@@ -54,6 +55,24 @@ class OperationWidget(QWidget):
         self.middle_group_box_layout.addWidget(self.dynamic_formula)
 
         self.middle_group_box_layout.addStretch()
+
+        self.top_group_box = QGroupBox()
+        self.top_group_box.setStyleSheet("""border:none;""")
+        self.top_group_box.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.top_group_box_layout = QHBoxLayout()
+        self.top_group_box.setLayout(self.top_group_box_layout)
+        self.middle_group_box_layout.addWidget(self.top_group_box)
+
+        self.hide_left_button = QPushButton("Hide Left")
+        self.hide_left_button.setFixedWidth(150)
+        self.hide_left_button.clicked.connect(self.hide_left_button_funtion)
+        self.top_group_box_layout.addWidget(self.hide_left_button)
+        self.top_group_box_layout.addStretch()
+
+        self.hide_right_button = QPushButton("Hide Right")
+        self.hide_right_button.setFixedWidth(150)
+        self.hide_right_button.clicked.connect(self.hide_right_button_function)
+        self.top_group_box_layout.addWidget(self.hide_right_button)
 
         #Right GroupBox
         self.right_group_box = QGroupBox()
@@ -89,6 +108,8 @@ class OperationWidget(QWidget):
         self.right_group_box_layout.addWidget(self.variable_3_info,2,1)
 
         self.update_formula_display()
+        self.left_hide = False
+        self.right_hide = False
 
         self.variable_1_input.textChanged.connect(self.reset_and_update_display)
 
@@ -164,6 +185,19 @@ class OperationWidget(QWidget):
             self.current_result = "<span style='color: #EF4444;'>No Data!</span>"
         self.update_formula_display()
 
-
+    def hide_left_button_funtion(self):
+        if not self.left_hide:
+            self.left_group_box.hide()
+            self.left_hide = True
+        else:
+            self.left_group_box.show()
+            self.left_hide = False
+    def hide_right_button_function(self):
+        if not self.right_hide:
+            self.right_group_box.hide()
+            self.right_hide = True
+        else:
+            self.right_group_box.show()
+            self.right_hide = False
 
         

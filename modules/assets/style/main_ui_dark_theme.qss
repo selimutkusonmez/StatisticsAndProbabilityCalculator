@@ -183,8 +183,12 @@ QPushButton:pressed {
 }
 
 #dynamic_formula{
-    font-size: 40px;
+    font-size: {FONT_SIZE}px;
     font-family: 'Times New Roman', serif;
-    color: #ADBAC7;
+    color: {FONT_COLOR};
+    
+}
+QMessageBox{
+    background-color : #22272E;
     
 }
